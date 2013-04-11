@@ -70,7 +70,7 @@ could modify it.
 
 Additionally, when a route gets called you have this objects available:
 
-* `env`: The standard rack env variable.
+* `env`: The Rack environment.
 * `request`: a `Rack::Request` instance.
 * `response`: a `Rack::Response` instance.
 
