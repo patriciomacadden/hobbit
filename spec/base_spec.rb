@@ -24,9 +24,27 @@ EOS
     class_eval str
   end
 
+  describe '::app' do
+    it 'must return an instance of Rack::Builder' do
+      TestBaseApp.app.must_be_kind_of Rack::Builder
+    end
+  end
+
+  describe '::new' do
+    it 'should return an instance of Rack::Builder' do
+      TestBaseApp.new.must_be_kind_of Rack::Builder
+    end
+  end
+
   describe '::routes' do
     it 'must return a Hash' do
       TestBaseApp.routes.must_be_kind_of Hash
+    end
+  end
+
+  describe '::use' do
+    it 'must add a middleware to the app stack' do
+      skip '::use'
     end
   end
 

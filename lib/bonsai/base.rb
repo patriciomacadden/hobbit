@@ -5,8 +5,23 @@ module Bonsai
         define_method(verb.downcase) { |path, &block| routes[verb] << compile_route!(path, &block) }
       end
 
+      def app
+        @app ||= Rack::Builder.new
+      end
+
+      alias :new! :new
+      def new(*args, &block)
+        instance = new!(*args, &block)
+        app.run instance
+        app
+      end
+
       def routes
         @routes ||= Hash.new { |hash, key| hash[key] = [] }
+      end
+
+      def use(middleware, *args, &block)
+        app.use(middleware, *args, &block)
       end
 
       private
@@ -30,11 +45,7 @@ module Bonsai
       end
     end
 
-    attr_reader :builder, :env, :request, :response
-
-    def initialize
-      @builder = Rack::Builder.new
-    end
+    attr_reader :env, :request, :response
 
     def call(env)
       dup._call(env)
@@ -67,10 +78,6 @@ module Bonsai
       end
 
       @response.finish
-    end
-
-    def use(middleware, *args, &block)
-      builder.use(middleware, *args, &block)
     end
   end
 end
