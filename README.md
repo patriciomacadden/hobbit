@@ -55,7 +55,11 @@ You can define routes as in [Sinatra](http://www.sinatrarb.com/):
 ```ruby
 class App < Bonsai::Base
   get '/' do
-    # route body
+    'Hello world'
+  end
+
+  get '/hi/:name' do
+    "Hello #{request.params[:name]}"
   end
 end
 ```
@@ -128,6 +132,11 @@ end
 
 run App.new
 ```
+
+### Extending Bonsai
+
+You can extend bonsai by creating modules or classes. See `Bonsai::Render` for
+an example.
 
 ## Contributing
 
