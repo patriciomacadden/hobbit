@@ -5,6 +5,6 @@ class TestRenderApp < Bonsai::Base
     'Bonsai'
   end
 
-  get('/') { render File.expand_path('../views/index.html.erb', __FILE__) }
-  get('/using-context') { render File.expand_path('../views/hello.html.erb', __FILE__) }
+  get('/') { render File.expand_path('../views/index.erb', __FILE__) }
+  get('/using-context') { render File.expand_path('../views/hello.erb', __FILE__) }
 end
