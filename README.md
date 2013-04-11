@@ -68,7 +68,7 @@ The returned value of the block will be the `body` of your route. The `headers`
 and `status code` of the route will be calculated by `Rack::Response`, but you
 could modify it.
 
-Aditionally, when a route gets called you have this objects available:
+Additionally, when a route gets called you have this objects available:
 
 * `env`: The standard rack env variable.
 * `request`: a `Rack::Request` instance.
