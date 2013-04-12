@@ -72,14 +72,6 @@ EOS
         last_response.body.must_equal ''
       end
     end
-
-    describe 'when the block raises an exception' do
-      it 'must respond with 500 status code' do
-        #{verb.downcase} '/raise'
-        last_response.must_be :server_error?
-        last_response.body.must_equal ''
-      end
-    end
 EOS
       class_eval str
     end

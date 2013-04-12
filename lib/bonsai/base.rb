@@ -55,28 +55,26 @@ module Bonsai
       @env = env
       @request = Rack::Request.new(@env)
       @response = Rack::Response.new
-
-      begin
-        route = catch(:halt) do
-          self.class.routes[@request.request_method].each do |r|
-            throw(:halt, r) if !!(r[:compiled_path] =~ @request.path_info)
-          end
-          raise NotFound
-        end
-
-        if route[:extra_params].any?
-          matches = route[:compiled_path].match(@request.path_info)
-          route[:extra_params].each_index { |i| @request.params[route[:extra_params][i]] = matches.captures[i] }
-        end
-
-        @response.write instance_eval(&route[:block])
-      rescue NotFound
-        @response.status = 404
-      rescue Exception
-        @response.status = 500
-      end
-
+      route_eval
       @response.finish
+    end
+
+    private
+
+    def route_eval
+      catch(:halt) do
+        self.class.routes[@request.request_method].each do |route|
+          if !!(route[:compiled_path] =~ @request.path_info)
+            if route[:extra_params].any?
+              matches = route[:compiled_path].match(@request.path_info)
+              route[:extra_params].each_index { |i| @request.params[route[:extra_params][i]] = matches.captures[i] }
+            end
+            @response.write instance_eval(&route[:block])
+            throw :halt
+          end
+        end
+        @response.status = 404
+      end
     end
   end
 end
