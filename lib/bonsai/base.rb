@@ -29,16 +29,11 @@ module Bonsai
       def compile_route!(path, &block)
         route = { block: block, compiled_path: nil, extra_params: [], path: path }
 
-        postfix = '/' if path =~ /\/\z/
-        segments = path.split('/')
-        segments.map! do |s|
-          s.gsub!(/:\w+/) do |e|
-            route[:extra_params] << e.gsub(':', '').to_sym
-            '(\w+)'
-          end
-          s
+        compiled_path = path.gsub(/:\w+/) do |match|
+          route[:extra_params] << match.gsub(':', '').to_sym
+          '([^/?#]+)'
         end
-        route[:compiled_path] = /\A#{segments.join('/')}#{postfix}\z/
+        route[:compiled_path] = /^#{compiled_path}$/
 
         route
       end

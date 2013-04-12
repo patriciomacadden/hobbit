@@ -74,6 +74,10 @@ EOS
         #{verb.downcase} '/bonsai'
         last_response.must_be :ok?
         last_response.body.must_equal 'bonsai'
+
+        #{verb.downcase} '/hello-bonsai'
+        last_response.must_be :ok?
+        last_response.body.must_equal 'hello-bonsai'
       end
     end
 
