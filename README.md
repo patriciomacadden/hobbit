@@ -202,6 +202,29 @@ end
 run App.new
 ```
 
+### Rack middleware
+
+Each bonsai application is a Rack stack (See this [blog post](http://m.onkey.org/ruby-on-rack-2-the-builder)).
+You can add any Rack middleware to the stack by using the `use` class method:
+
+```ruby
+require 'bonsai'
+
+class App < Bonsai::Base
+  include Bonsai::Session
+  use Rack::Session::Cookie, secret: SecureRandom.hex(64)
+  use Rack::ShowExceptions
+
+  get '/' do
+    session[:name] = 'bonsai'
+  end
+
+  # more routes...
+end
+
+run App
+```
+
 ### Extending Bonsai
 
 You can extend bonsai by creating modules or classes. See `Bonsai::Render` or
