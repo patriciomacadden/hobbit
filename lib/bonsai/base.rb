@@ -32,12 +32,11 @@ module Bonsai
         postfix = '/' if path =~ /\/\z/
         segments = path.split('/')
         segments.map! do |s|
-          if s =~ /:\w+/
-            route[:extra_params] << s.gsub(':', '').to_sym
-            s.gsub!(/:\w+/, '(\w+)')
-          else
-            s
+          s.gsub!(/:\w+/) do |e|
+            route[:extra_params] << e.gsub(':', '').to_sym
+            '(\w+)'
           end
+          s
         end
         route[:compiled_path] = /\A#{segments.join('/')}#{postfix}\z/
 

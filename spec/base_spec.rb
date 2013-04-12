@@ -52,13 +52,25 @@ EOS
     %w(DELETE GET HEAD OPTIONS PATCH POST PUT).each do |verb|
       str = <<EOS
     describe 'when the request matches a route' do
-      it 'must #{verb} /' do
+      it 'must match #{verb} /' do
         #{verb.downcase} '/'
         last_response.must_be :ok?
         last_response.body.must_equal '#{verb}'
       end
 
-      it 'must #{verb} /:name' do
+      it 'must match #{verb} /route.json' do
+        #{verb.downcase} '/route.json'
+        last_response.must_be :ok?
+        last_response.body.must_equal '#{verb} /route.json'
+      end
+
+      it 'must match #{verb} /route/:id.json' do
+        #{verb.downcase} '/route/1.json'
+        last_response.must_be :ok?
+        last_response.body.must_equal '1'
+      end
+
+      it 'must match #{verb} /:name' do
         #{verb.downcase} '/bonsai'
         last_response.must_be :ok?
         last_response.body.must_equal 'bonsai'
