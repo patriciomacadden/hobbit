@@ -69,8 +69,7 @@ module Bonsai
           route[:extra_params].each_index { |i| @request.params[route[:extra_params][i]] = matches.captures[i] }
         end
 
-        @response.status = 200
-        @response.body = [instance_eval(&route[:block])]
+        @response.write instance_eval(&route[:block])
       rescue NotFound
         @response.status = 404
       rescue Exception
