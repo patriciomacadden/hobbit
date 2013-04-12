@@ -58,10 +58,12 @@ module Bonsai
     def route_eval
       catch(:halt) do
         self.class.routes[@request.request_method].each do |route|
-          if !!(route[:compiled_path] =~ @request.path_info)
+          if route[:compiled_path] =~ @request.path_info
             if route[:extra_params].any?
-              matches = route[:compiled_path].match(@request.path_info)
-              route[:extra_params].each_index { |i| @request.params[route[:extra_params][i]] = matches.captures[i] }
+              route[:compiled_path].match(@request.path_info).captures.each_with_index do |value, index|
+                param = route[:extra_params][index]
+                @request.params[param] = value
+              end
             end
             @response.write instance_eval(&route[:block])
             throw :halt
