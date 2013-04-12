@@ -38,7 +38,7 @@ the included modules).
 ## Usage
 
 `Bonsai` applications are just instances of `Bonsai::Base`, which complies the
-[Rack SPEC](http://rack.rubyforge.org/doc/SPEC.html)).
+[Rack SPEC](http://rack.rubyforge.org/doc/SPEC.html).
 
 Here is a  classic **Hello World!** example (write this code in `config.ru`):
 
