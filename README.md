@@ -37,7 +37,7 @@ the included modules).
 
 ## Usage
 
-`Bonsai` applications are just instances of `Bonsai::Base` (See the
+`Bonsai` applications are just instances of `Bonsai::Base`, which complies the
 [Rack SPEC](http://rack.rubyforge.org/doc/SPEC.html)).
 
 Here is a  classic **Hello World!** example (write this code in `config.ru`):
@@ -115,6 +115,57 @@ and in `views/index.erb`:
     <h1>Hello World!</h1>
   </body>
 </html>
+```
+
+#### Layout
+
+For now, the `Bonsai::Render` module is pretty simple (just `render`). If you
+want to render a template within a layout, you could simply do this:
+
+In `config.ru`:
+
+```ruby
+require 'bonsai'
+
+class App < Bonsai::Base
+  include Bonsai::Render
+
+  get '/' do
+    render 'views/layout.erb' do
+      render 'views/index.erb'
+    end
+  end
+end
+
+run App.new
+```
+
+In `views/layout.erb`:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello World!</title>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>
+```
+
+And in `views/index.erb`:
+
+```html
+<h1>Hello World!</h1>
+```
+
+#### Partials
+
+Partials are just `render` calls:
+
+```ruby
+<%= render 'views/_some_partial.erb' %>
 ```
 
 #### Helpers
@@ -247,4 +298,4 @@ See the `examples` directory.
 
 ## License
 
-See LICENSE.
+See the [LICENSE](https://github.com/patriciomacadden/bonsai/blob/master/LICENSE).
