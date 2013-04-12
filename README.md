@@ -133,10 +133,36 @@ end
 run App.new
 ```
 
+### Sessions
+
+You can add user sessions using any [Rack session middleware](https://github.com/rack/rack/tree/master/lib/rack/session)
+and then access the session through `env['rack.session']`. Fortunately, there
+is `Bonsai::Session` which comes with a useful helper (in `config.ru`):
+
+```ruby
+require 'bonsai'
+require 'securerandom'
+
+class App < Bonsai::Base
+  include Bonsai::Session
+  use Rack::Session::Cookie, secret: SecureRandom.hex(64)
+
+  get '/' do
+    session[:name] = 'bonsai'
+  end
+
+  get '/' do
+    session[:name]
+  end
+end
+
+run App.new
+```
+
 ### Extending Bonsai
 
-You can extend bonsai by creating modules or classes. See `Bonsai::Render` for
-an example.
+You can extend bonsai by creating modules or classes. See `Bonsai::Render` or
+`Bonsai::Session` for examples.
 
 ## Contributing
 

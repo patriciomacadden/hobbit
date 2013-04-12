@@ -8,13 +8,13 @@ describe Bonsai::Render do
   end
 
   describe '#render' do
-    it 'will render a template' do
+    it 'must render a template' do
       get '/'
       last_response.must_be :ok?
       last_response.body.must_match /Hello World!/
     end
 
-    it 'will use the app as context' do
+    it 'must use the app as context' do
       get '/using-context'
       last_response.must_be :ok?
       last_response.body.must_match /Hello Bonsai!/
