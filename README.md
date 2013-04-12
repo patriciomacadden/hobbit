@@ -1,5 +1,8 @@
 # Bonsai
 
+[![Build Status](https://travis-ci.org/patriciomacadden/bonsai.png?branch=master)](https://travis-ci.org/patriciomacadden/bonsai)
+[![Code Climate](https://codeclimate.com/github/patriciomacadden/bonsai.png)](https://codeclimate.com/github/patriciomacadden/bonsai)
+
 A minimalistic microframework built on top of [Rack](http://rack.github.io/).
 
 ![Bonsai](http://farm4.staticflickr.com/3461/3256451111_5f1dd186d8.jpg)
