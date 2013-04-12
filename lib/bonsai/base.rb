@@ -11,8 +11,7 @@ module Bonsai
 
       alias :new! :new
       def new(*args, &block)
-        instance = new!(*args, &block)
-        app.run instance
+        app.run new!(*args, &block)
         app
       end
 
