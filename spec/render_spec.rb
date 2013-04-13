@@ -1,6 +1,6 @@
 require 'minitest_helper'
 
-describe Banzai::Render do
+describe Hobbit::Render do
   include Rack::Test::Methods
 
   def app
@@ -17,7 +17,7 @@ describe Banzai::Render do
     it 'must use the app as context' do
       get '/using-context'
       last_response.must_be :ok?
-      last_response.body.must_match /Hello Banzai!/
+      last_response.body.must_match /Hello Hobbit!/
     end
   end
 end

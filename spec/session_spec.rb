@@ -1,6 +1,6 @@
 require 'minitest_helper'
 
-describe Banzai::Session do
+describe Hobbit::Session do
   include Rack::Test::Methods
 
   def app
@@ -11,11 +11,11 @@ describe Banzai::Session do
     it 'must return a session object' do
       get '/'
       last_response.must_be :ok?
-      last_response.body.must_equal 'banzai'
+      last_response.body.must_equal 'hobbit'
 
       get '/name'
       last_response.must_be :ok?
-      last_response.body.must_equal 'banzai'
+      last_response.body.must_equal 'hobbit'
     end
   end
 end

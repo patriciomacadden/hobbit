@@ -1,6 +1,6 @@
-class App < Banzai::Base
+class App < Hobbit::Base
   get '/' do
-    'Hello Banzai!'
+    'Hello Hobbit!'
   end
 
   get '/hi' do

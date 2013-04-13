@@ -1,4 +1,4 @@
-module Banzai
+module Hobbit
   module Session
     def session
       env['rack.session']

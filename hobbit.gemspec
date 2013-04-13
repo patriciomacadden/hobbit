@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'banzai/version'
+require 'hobbit/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'banzai'
-  spec.version       = Banzai::VERSION
+  spec.name          = 'hobbit'
+  spec.version       = Hobbit::VERSION
   spec.authors       = ['Patricio Mac Adden']
   spec.email         = ['patriciomacadden@gmail.com']
   spec.description   = %q{A minimalistic microframework built on top of rack}

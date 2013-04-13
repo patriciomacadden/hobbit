@@ -1,7 +1,7 @@
 require 'minitest_helper'
 
-describe Banzai::VERSION do
+describe Hobbit::VERSION do
   it 'is wont be nil' do
-    Banzai::VERSION.wont_be_nil
+    Hobbit::VERSION.wont_be_nil
   end
 end

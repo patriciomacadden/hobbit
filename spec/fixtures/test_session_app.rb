@@ -1,11 +1,11 @@
 require 'securerandom'
 
-class TestSessionApp < Banzai::Base
-  include Banzai::Session
+class TestSessionApp < Hobbit::Base
+  include Hobbit::Session
   use Rack::Session::Cookie, secret: SecureRandom.hex(64)
 
   get '/' do
-    session[:name] = 'banzai'
+    session[:name] = 'hobbit'
   end
 
   get '/name' do

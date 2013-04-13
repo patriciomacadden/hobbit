@@ -1,4 +1,4 @@
-module Banzai
+module Hobbit
   class Base
     class << self
       %w(DELETE GET HEAD OPTIONS PATCH POST PUT).each do |verb|

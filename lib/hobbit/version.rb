@@ -1,3 +1,3 @@
-module Banzai
+module Hobbit
   VERSION = '0.0.1'
 end

@@ -7,9 +7,9 @@ require 'minitest/autorun'
 require 'rack'
 require 'rack/test'
 
-require 'banzai'
+require 'hobbit'
 
-# banzai test apps
+# hobbit test apps
 require 'fixtures/test_base_app'
 require 'fixtures/test_render_app'
 require 'fixtures/test_session_app'

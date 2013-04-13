@@ -1,3 +1,3 @@
 source 'https://rubygems.org'
 
-gem 'banzai', path: '../../../banzai'
+gem 'hobbit', path: '../../../hobbit'

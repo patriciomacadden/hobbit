@@ -1,8 +1,8 @@
-class TestRenderApp < Banzai::Base
-  include Banzai::Render
+class TestRenderApp < Hobbit::Base
+  include Hobbit::Render
 
   def name
-    'Banzai'
+    'Hobbit'
   end
 
   get('/') { render File.expand_path('../views/index.erb', __FILE__) }
