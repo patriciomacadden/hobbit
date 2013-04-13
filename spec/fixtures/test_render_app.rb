@@ -1,8 +1,8 @@
-class TestRenderApp < Bonsai::Base
-  include Bonsai::Render
+class TestRenderApp < Banzai::Base
+  include Banzai::Render
 
   def name
-    'Bonsai'
+    'Banzai'
   end
 
   get('/') { render File.expand_path('../views/index.erb', __FILE__) }

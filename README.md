@@ -1,20 +1,18 @@
-# Bonsai
+# Banzai
 
-[![Build Status](https://travis-ci.org/patriciomacadden/bonsai.png?branch=master)](https://travis-ci.org/patriciomacadden/bonsai)
-[![Code Climate](https://codeclimate.com/github/patriciomacadden/bonsai.png)](https://codeclimate.com/github/patriciomacadden/bonsai)
+[![Build Status](https://travis-ci.org/patriciomacadden/banzai.png?branch=master)](https://travis-ci.org/patriciomacadden/banzai)
+[![Code Climate](https://codeclimate.com/github/patriciomacadden/banzai.png)](https://codeclimate.com/github/patriciomacadden/banzai)
 
 A minimalistic microframework built on top of [Rack](http://rack.github.io/).
-
-![Bonsai](http://farm4.staticflickr.com/3461/3256451111_5f1dd186d8.jpg)
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'bonsai'
+gem 'banzai'
 # or this if you want to use master
-# gem 'bonsai', github: 'patriciomacadden/bonsai'
+# gem 'banzai', github: 'patriciomacadden/banzai'
 ```
 
 And then execute:
@@ -26,7 +24,7 @@ $ bundle
 Or install it yourself as:
 
 ```bash
-$ gem install bonsai
+$ gem install banzai
 ```
 
 ## Features
@@ -37,15 +35,15 @@ the included modules).
 
 ## Usage
 
-`Bonsai` applications are just instances of `Bonsai::Base`, which complies the
+`Banzai` applications are just instances of `Banzai::Base`, which complies the
 [Rack SPEC](http://rack.rubyforge.org/doc/SPEC.html).
 
 Here is a  classic **Hello World!** example (write this code in `config.ru`):
 
 ```ruby
-require 'bonsai'
+require 'banzai'
 
-class App < Bonsai::Base
+class App < Banzai::Base
   get '/' do
     'Hello World!'
   end
@@ -59,7 +57,7 @@ run App.new
 You can define routes as in [Sinatra](http://www.sinatrarb.com/):
 
 ```ruby
-class App < Bonsai::Base
+class App < Banzai::Base
   get '/' do
     'Hello world'
   end
@@ -84,16 +82,16 @@ Additionally, when a route gets called you have this methods available:
 
 ### Rendering
 
-`Bonsai` comes with a module that uses [Tilt](https://github.com/rtomayko/tilt)
+`Banzai` comes with a module that uses [Tilt](https://github.com/rtomayko/tilt)
 for rendering templates. See the example:
 
 In `config.ru`:
 
 ```ruby
-require 'bonsai'
+require 'banzai'
 
-class App < Bonsai::Base
-  include Bonsai::Render
+class App < Banzai::Base
+  include Banzai::Render
 
   get '/' do
     render 'views/index.erb'
@@ -119,16 +117,16 @@ and in `views/index.erb`:
 
 #### Layout
 
-For now, the `Bonsai::Render` module is pretty simple (just `render`). If you
+For now, the `Banzai::Render` module is pretty simple (just `render`). If you
 want to render a template within a layout, you could simply do this:
 
 In `config.ru`:
 
 ```ruby
-require 'bonsai'
+require 'banzai'
 
-class App < Bonsai::Base
-  include Bonsai::Render
+class App < Banzai::Base
+  include Banzai::Render
 
   get '/' do
     render 'views/layout.erb' do
@@ -175,10 +173,10 @@ the application can be used in the templates, since the template code is
 executed within the scope of the application instance. See an example:
 
 ```ruby
-require 'bonsai'
+require 'banzai'
 
-class App < Bonsai::Base
-  include Bonsai::Render
+class App < Banzai::Base
+  include Banzai::Render
 
   def name
     'World'
@@ -208,16 +206,16 @@ and in `views/index.erb`:
 
 ### Redirecting
 
-If you look at Bonsai implementation, you may notice that there is no
+If you look at Banzai implementation, you may notice that there is no
 `redirect` method (or similar). This is because such functionality is provided
 by [Rack::Response](https://github.com/rack/rack/blob/master/lib/rack/response.rb)
 and for now we [don't wan't to repeat ourselves](http://en.wikipedia.org/wiki/Don't_repeat_yourself).
 So, if you want to redirect to another route, do it like this:
 
 ```ruby
-require 'bonsai'
+require 'banzai'
 
-class App < Bonsai::Base
+class App < Banzai::Base
   get '/' do
     response.redirect '/hi'
   end
@@ -234,18 +232,18 @@ run App.new
 
 You can add user sessions using any [Rack session middleware](https://github.com/rack/rack/tree/master/lib/rack/session)
 and then access the session through `env['rack.session']`. Fortunately, there
-is `Bonsai::Session` which comes with a useful helper:
+is `Banzai::Session` which comes with a useful helper:
 
 ```ruby
-require 'bonsai'
+require 'banzai'
 require 'securerandom'
 
-class App < Bonsai::Base
-  include Bonsai::Session
+class App < Banzai::Base
+  include Banzai::Session
   use Rack::Session::Cookie, secret: SecureRandom.hex(64)
 
   get '/' do
-    session[:name] = 'bonsai'
+    session[:name] = 'banzai'
   end
 
   get '/' do
@@ -258,19 +256,19 @@ run App.new
 
 ### Rack middleware
 
-Each bonsai application is a Rack stack (See this [blog post](http://m.onkey.org/ruby-on-rack-2-the-builder)).
+Each banzai application is a Rack stack (See this [blog post](http://m.onkey.org/ruby-on-rack-2-the-builder)).
 You can add any Rack middleware to the stack by using the `use` class method:
 
 ```ruby
-require 'bonsai'
+require 'banzai'
 
-class App < Bonsai::Base
-  include Bonsai::Session
+class App < Banzai::Base
+  include Banzai::Session
   use Rack::Session::Cookie, secret: SecureRandom.hex(64)
   use Rack::ShowExceptions
 
   get '/' do
-    session[:name] = 'bonsai'
+    session[:name] = 'banzai'
   end
 
   # more routes...
@@ -279,10 +277,10 @@ end
 run App
 ```
 
-### Extending Bonsai
+### Extending Banzai
 
-You can extend bonsai by creating modules or classes. See `Bonsai::Render` or
-`Bonsai::Session` for examples.
+You can extend banzai by creating modules or classes. See `Banzai::Render` or
+`Banzai::Session` for examples.
 
 ## More examples
 
@@ -298,4 +296,4 @@ See the `examples` directory.
 
 ## License
 
-See the [LICENSE](https://github.com/patriciomacadden/bonsai/blob/master/LICENSE).
+See the [LICENSE](https://github.com/patriciomacadden/banzai/blob/master/LICENSE).

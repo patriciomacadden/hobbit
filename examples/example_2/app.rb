@@ -1,5 +1,5 @@
-class App < Bonsai::Base
-  include Bonsai::Render
+class App < Banzai::Base
+  include Banzai::Render
 
   get '/' do
     render File.expand_path('../views/index.html.erb', __FILE__)

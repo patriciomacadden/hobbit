@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'bonsai/version'
+require 'banzai/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'bonsai'
-  spec.version       = Bonsai::VERSION
+  spec.name          = 'banzai'
+  spec.version       = Banzai::VERSION
   spec.authors       = ['Patricio Mac Adden']
   spec.email         = ['patriciomacadden@gmail.com']
   spec.description   = %q{A minimalistic microframework built on top of rack}

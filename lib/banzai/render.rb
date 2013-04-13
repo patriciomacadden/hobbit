@@ -1,6 +1,6 @@
 require 'tilt'
 
-module Bonsai
+module Banzai
   module Render
     def render(template, locals = {}, options = {}, &block)
       cache.fetch(template) do

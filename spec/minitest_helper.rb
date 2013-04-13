@@ -7,9 +7,9 @@ require 'minitest/autorun'
 require 'rack'
 require 'rack/test'
 
-require 'bonsai'
+require 'banzai'
 
-# bonsai test apps
+# banzai test apps
 require 'fixtures/test_base_app'
 require 'fixtures/test_render_app'
 require 'fixtures/test_session_app'

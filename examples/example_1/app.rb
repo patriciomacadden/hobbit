@@ -1,6 +1,6 @@
-class App < Bonsai::Base
+class App < Banzai::Base
   get '/' do
-    'Hello Bonsai!'
+    'Hello Banzai!'
   end
 
   get '/hi' do

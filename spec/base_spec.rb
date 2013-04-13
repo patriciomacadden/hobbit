@@ -1,6 +1,6 @@
 require 'minitest_helper'
 
-describe Bonsai::Base do
+describe Banzai::Base do
   include Rack::Test::Methods
 
   def app
@@ -71,13 +71,13 @@ EOS
       end
 
       it 'must match #{verb} /:name' do
-        #{verb.downcase} '/bonsai'
+        #{verb.downcase} '/banzai'
         last_response.must_be :ok?
-        last_response.body.must_equal 'bonsai'
+        last_response.body.must_equal 'banzai'
 
-        #{verb.downcase} '/hello-bonsai'
+        #{verb.downcase} '/hello-banzai'
         last_response.must_be :ok?
-        last_response.body.must_equal 'hello-bonsai'
+        last_response.body.must_equal 'hello-banzai'
       end
     end
 

@@ -1,4 +1,4 @@
-module Bonsai
+module Banzai
   class Base
     class << self
       %w(DELETE GET HEAD OPTIONS PATCH POST PUT).each do |verb|

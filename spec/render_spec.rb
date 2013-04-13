@@ -1,6 +1,6 @@
 require 'minitest_helper'
 
-describe Bonsai::Render do
+describe Banzai::Render do
   include Rack::Test::Methods
 
   def app
@@ -17,7 +17,7 @@ describe Bonsai::Render do
     it 'must use the app as context' do
       get '/using-context'
       last_response.must_be :ok?
-      last_response.body.must_match /Hello Bonsai!/
+      last_response.body.must_match /Hello Banzai!/
     end
   end
 end

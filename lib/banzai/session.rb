@@ -1,4 +1,4 @@
-module Bonsai
+module Banzai
   module Session
     def session
       env['rack.session']
