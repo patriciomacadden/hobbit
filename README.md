@@ -32,6 +32,7 @@ $ gem install hobbit
 * DSL inspired by [Sinatra](http://www.sinatrarb.com/).
 * Extensible with standard ruby classes and modules, with no extra logic (see
 the included modules).
+* No configuration.
 
 ## Usage
 
@@ -79,6 +80,59 @@ Additionally, when a route gets called you have this methods available:
 * `env`: The Rack environment.
 * `request`: a `Rack::Request` instance.
 * `response`: a `Rack::Response` instance.
+
+#### Available methods
+
+* `delete`
+* `get`
+* `head`
+* `options`
+* `patch`
+* `post`
+* `put`
+
+**Note**: Since most browsers don't support methods other than **GET** and
+**POST** you must use the `Rack::MethodOverride` middleware. (See
+[Rack::MethodOverride](https://github.com/rack/rack/blob/master/lib/rack/methodoverride.rb)).
+Here is an example on how to use it in a RESTful way:
+
+```ruby
+require 'hobbit'
+
+class App < Hobbit::Base
+  use Rack::MethodOverride
+
+  get '/users' do
+    # list the users
+  end
+
+  get '/users/new' do
+    # render a form for creating an user
+  end
+
+  post '/users' do
+    # create an user
+  end
+
+  get '/users/:id/edit' do
+    # render a form for editing an user
+  end
+
+  put '/users/:id' do
+    # update an user
+  end
+
+  get '/users/:id' do
+    # show an user
+  end
+
+  delete '/users/:id' do
+    # delete an user
+  end
+end
+
+run App.new
+```
 
 ### Rendering
 
