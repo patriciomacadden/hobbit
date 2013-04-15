@@ -53,6 +53,10 @@ end
 run App.new
 ```
 
+**Note**: In the examples, the classes are written in the `config.ru` file.
+However, this is not recommended. Please, **always** follow the coding
+standards!
+
 ### Routes
 
 You can define routes as in [Sinatra](http://www.sinatrarb.com/):
@@ -329,6 +333,58 @@ class App < Hobbit::Base
 end
 
 run App.new
+```
+
+### Static files
+
+`Hobbit` does not serve static files like images, javascripts and stylesheets.
+However, you can serve static files using the `Rack::Static` middleware. Here
+is an example (See [Rack::Static](https://github.com/rack/rack/blob/master/lib/rack/static.rb)
+for further details):
+
+In `config.ru`
+
+```ruby
+require 'hobbit'
+
+class App < Hobbit::Base
+  include Hobbit::Render
+  use Rack::Static, root: 'public', urls: ['/javascripts', '/stylesheets']
+
+  get '/' do
+    render 'views/index.erb'
+  end
+end
+
+run App.new
+```
+
+In `views/index.erb`:
+
+```ruby
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello World!</title>
+    <link href="/stylesheets/application.css" rel="stylesheet"/>
+    <script src="/javascripts/application.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <h1>Hello World!</h1>
+  </body>
+</html>
+```
+
+In `public/javascripts/application.js`:
+
+```js
+alert(1);
+```
+
+In `public/stylesheets/application.css`:
+
+```css
+h1 { color: blue; }
 ```
 
 ### Extending Hobbit
