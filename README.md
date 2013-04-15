@@ -282,6 +282,29 @@ end
 run App.new
 ```
 
+### Rack middleware
+
+Each hobbit application is a Rack stack (See this [blog post](http://m.onkey.org/ruby-on-rack-2-the-builder)).
+You can add any Rack middleware to the stack by using the `use` class method:
+
+```ruby
+require 'hobbit'
+
+class App < Hobbit::Base
+  include Hobbit::Session
+  use Rack::Session::Cookie, secret: SecureRandom.hex(64)
+  use Rack::ShowExceptions
+
+  get '/' do
+    session[:name] = 'hobbit'
+  end
+
+  # more routes...
+end
+
+run App
+```
+
 ### Sessions
 
 You can add user sessions using any [Rack session middleware](https://github.com/rack/rack/tree/master/lib/rack/session)
@@ -306,29 +329,6 @@ class App < Hobbit::Base
 end
 
 run App.new
-```
-
-### Rack middleware
-
-Each hobbit application is a Rack stack (See this [blog post](http://m.onkey.org/ruby-on-rack-2-the-builder)).
-You can add any Rack middleware to the stack by using the `use` class method:
-
-```ruby
-require 'hobbit'
-
-class App < Hobbit::Base
-  include Hobbit::Session
-  use Rack::Session::Cookie, secret: SecureRandom.hex(64)
-  use Rack::ShowExceptions
-
-  get '/' do
-    session[:name] = 'hobbit'
-  end
-
-  # more routes...
-end
-
-run App
 ```
 
 ### Extending Hobbit
