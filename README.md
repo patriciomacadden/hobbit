@@ -286,9 +286,37 @@ end
 run App.new
 ```
 
-### Rack middleware
+### Built on rack
 
 Each hobbit application is a Rack stack (See this [blog post](http://m.onkey.org/ruby-on-rack-2-the-builder)).
+
+#### Mapping applications
+
+You can mount any Rack application to the stack by using the `map` class
+method:
+
+```ruby
+require 'hobbit'
+
+class InnerApp < Hobbit::Base
+  get '/' do
+    'Hello InnerApp!'
+  end
+end
+
+class App < Hobbit::Base
+  map('/inner') { run InnerApp.new }
+
+  get '/' do
+    'Hello App!'
+  end
+end
+
+run App.new
+```
+
+#### Using middleware
+
 You can add any Rack middleware to the stack by using the `use` class method:
 
 ```ruby
@@ -306,7 +334,7 @@ class App < Hobbit::Base
   # more routes...
 end
 
-run App
+run App.new
 ```
 
 ### Sessions

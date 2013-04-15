@@ -5,22 +5,26 @@ module Hobbit
         define_method(verb.downcase) { |path, &block| routes[verb] << compile_route!(path, &block) }
       end
 
-      def app
-        @app ||= Rack::Builder.new
+      def map(path, &block)
+        stack.map(path, &block)
       end
 
       alias :new! :new
       def new(*args, &block)
-        app.run new!(*args, &block)
-        app
+        stack.run new!(*args, &block)
+        stack
       end
 
       def routes
         @routes ||= Hash.new { |hash, key| hash[key] = [] }
       end
 
+      def stack
+        @stack ||= Rack::Builder.new
+      end
+
       def use(middleware, *args, &block)
-        app.use(middleware, *args, &block)
+        stack.use(middleware, *args, &block)
       end
 
       private

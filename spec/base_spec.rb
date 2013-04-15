@@ -24,9 +24,15 @@ EOS
     class_eval str
   end
 
-  describe '::app' do
+  describe '::stack' do
     it 'must return an instance of Rack::Builder' do
-      TestBaseApp.app.must_be_kind_of Rack::Builder
+      TestBaseApp.stack.must_be_kind_of Rack::Builder
+    end
+  end
+
+  describe '::map' do
+    it 'must mount a application to the rack stack' do
+      skip '::map'
     end
   end
 
@@ -43,7 +49,7 @@ EOS
   end
 
   describe '::use' do
-    it 'must add a middleware to the app stack' do
+    it 'must add a middleware to the rack stack' do
       skip '::use'
     end
   end
