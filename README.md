@@ -33,6 +33,8 @@ $ gem install hobbit
 * Extensible with standard ruby classes and modules, with no extra logic (see
 the included modules).
 * No configuration.
+* Encourages the understanding and use of [Rack](http://rack.github.io/) and
+its extensions.
 
 ## Usage
 
@@ -337,6 +339,29 @@ end
 run App.new
 ```
 
+### Security
+
+By default, `hobbit` (nor Rack) comes without any protection against web
+attacks. The use of [Rack::Protection](https://github.com/rkh/rack-protection)
+is highly recommended:
+
+```ruby
+require 'hobbit'
+require 'rack/protection'
+require 'securerandom'
+
+class App < Hobbit::Base
+  use Rack::Session::Cookie, secret: SecureRandom.hex(64)
+  use Rack::Protection
+
+  get '/' do
+    'Hello World!'
+  end
+end
+
+run App.new
+```
+
 ### Sessions
 
 You can add user sessions using any [Rack session middleware](https://github.com/rack/rack/tree/master/lib/rack/session)
@@ -415,14 +440,14 @@ In `public/stylesheets/application.css`:
 h1 { color: blue; }
 ```
 
-### Extending Hobbit
-
-You can extend hobbit by creating modules or classes. See `Hobbit::Render` or
-`Hobbit::Session` for examples.
-
 ## More examples
 
 See the `examples` directory.
+
+## Extending Hobbit
+
+You can extend hobbit by creating modules or classes. See `Hobbit::Render` or
+`Hobbit::Session` for examples.
 
 ## Contributing
 
