@@ -449,7 +449,7 @@ See the `examples` directory.
 You can extend hobbit by creating modules or classes. See `Hobbit::Render` or
 `Hobbit::Session` for examples.
 
-## Hobbit::Contrib
+### Hobbit::Contrib
 
 See [hobbit-contrib](https://github.com/patriciomacadden/hobbit-contrib) for
 more hobbit extensions!
