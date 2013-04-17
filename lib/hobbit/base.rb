@@ -19,6 +19,10 @@ module Hobbit
         @routes ||= Hash.new { |hash, key| hash[key] = [] }
       end
 
+      def settings
+        @settings ||= { request_class: Rack::Request, response_class: Hobbit::Response }
+      end
+
       def stack
         @stack ||= Rack::Builder.new
       end
@@ -50,8 +54,8 @@ module Hobbit
 
     def _call(env)
       @env = env
-      @request = Rack::Request.new(@env)
-      @response = Rack::Response.new
+      @request = self.class.settings[:request_class].new(@env)
+      @response = self.class.settings[:response_class].new
       route_eval
       @response.finish
     end
