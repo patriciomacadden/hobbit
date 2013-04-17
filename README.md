@@ -30,8 +30,8 @@ $ gem install hobbit
 ## Features
 
 * DSL inspired by [Sinatra](http://www.sinatrarb.com/).
-* Extensible with standard ruby classes and modules, with no extra logic (see
-the included modules).
+* Extensible with standard ruby classes and modules, with no extra logic (See
+the included modules and [hobbit-contrib](https://github.com/patriciomacadden/hobbit-contrib))
 * No configuration.
 * Encourages the understanding and use of [Rack](http://rack.github.io/) and
 its extensions.
@@ -448,6 +448,11 @@ See the `examples` directory.
 
 You can extend hobbit by creating modules or classes. See `Hobbit::Render` or
 `Hobbit::Session` for examples.
+
+## Hobbit::Contrib
+
+See [hobbit-contrib](https://github.com/patriciomacadden/hobbit-contrib) for
+more hobbit extensions!
 
 ## Contributing
 
