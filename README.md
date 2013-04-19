@@ -31,10 +31,12 @@ $ gem install hobbit
 
 * DSL inspired by [Sinatra](http://www.sinatrarb.com/).
 * Extensible with standard ruby classes and modules, with no extra logic (See
-the included modules and [hobbit-contrib](https://github.com/patriciomacadden/hobbit-contrib))
-* No configuration.
+the included modules and [hobbit-contrib](https://github.com/patriciomacadden/hobbit-contrib)).
+* No configuration needed.
 * Encourages the understanding and use of [Rack](http://rack.github.io/) and
 its extensions.
+* Request and response classes could be injected (Defaults to `Rack::Request`
+and `Hobbit::Response`, respectively).
 
 ## Usage
 
@@ -79,7 +81,7 @@ Every route is composed of a verb, a path and a block. When an incoming request
 matches a route, the block is executed and a response is sent back to the
 client. The return value of the block will be the `body` of the response. The
 `headers` and `status code` of the response will be calculated by
-`Rack::Response`, but you could modify it anyway you want it.
+`Hobbit::Response`, but you could modify it anyway you want it.
 
 Additionally, when a route gets called you have this methods available:
 
