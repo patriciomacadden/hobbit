@@ -177,6 +177,9 @@ and in `views/index.erb`:
 </html>
 ```
 
+**Note**: If you want to use other template engine than `erb`, you should
+require the gem, ie. add the gem to your `Gemfile`.
+
 #### Layout
 
 For now, the `Hobbit::Render` module is pretty simple (just `render`). If you
