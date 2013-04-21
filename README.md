@@ -381,7 +381,7 @@ class App < Hobbit::Base
   include Hobbit::Session
   use Rack::Session::Cookie, secret: SecureRandom.hex(64)
 
-  get '/' do
+  post '/' do
     session[:name] = 'hobbit'
   end
 
