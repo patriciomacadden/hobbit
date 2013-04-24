@@ -306,7 +306,8 @@ method:
 require 'hobbit'
 
 class InnerApp < Hobbit::Base
-  get '/' do
+  # gets called when path_info = '/inner'
+  get do
     'Hello InnerApp!'
   end
 end
