@@ -1,5 +1,6 @@
 class TestBaseApp < Hobbit::Base
   %w(DELETE GET HEAD OPTIONS PATCH POST PUT).each do |verb|
+    class_eval "#{verb.downcase} { '#{verb}' }"
     class_eval "#{verb.downcase}('/') { '#{verb}' }"
     class_eval "#{verb.downcase}('/route.json') { '#{verb} /route.json' }"
     class_eval "#{verb.downcase}('/route/:id.json') { request.params[:id] }"

@@ -2,7 +2,7 @@ module Hobbit
   class Base
     class << self
       %w(DELETE GET HEAD OPTIONS PATCH POST PUT).each do |verb|
-        define_method(verb.downcase) { |path, &block| routes[verb] << compile_route!(path, &block) }
+        define_method(verb.downcase) { |path = '', &block| routes[verb] << compile_route!(path, &block) }
       end
 
       def map(path, &block)
