@@ -11,8 +11,8 @@ describe Hobbit::Base do
     str = <<EOS
   describe "::#{verb.downcase}" do
     it 'must add a route to @routes' do
-      #route = TestBaseApp.routes['#{verb}'].first
-      #route[:path].must_equal '/'
+      route = TestBaseApp.routes['#{verb}'].first
+      route[:path].must_equal '/'
     end
 
     it 'must extract the extra_params' do
