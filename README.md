@@ -445,10 +445,6 @@ In `public/stylesheets/application.css`:
 h1 { color: blue; }
 ```
 
-## More examples
-
-See the `examples` directory.
-
 ## Extending Hobbit
 
 You can extend hobbit by creating modules or classes. See `Hobbit::Render` or
