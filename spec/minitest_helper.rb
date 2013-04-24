@@ -9,7 +9,11 @@ require 'rack/test'
 
 require 'hobbit'
 
-# hobbit test apps
-require 'fixtures/test_base_app'
-require 'fixtures/test_render_app'
-require 'fixtures/test_session_app'
+module Hobbit
+  module Mock
+    def mock_app(&block)
+      app = Class.new Hobbit::Base, &block
+      app.new
+    end
+  end
+end

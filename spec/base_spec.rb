@@ -1,22 +1,31 @@
 require 'minitest_helper'
 
 describe Hobbit::Base do
+  include Hobbit::Mock
   include Rack::Test::Methods
 
   def app
-    TestBaseApp.new
+    mock_app do
+      %w(DELETE GET HEAD OPTIONS PATCH POST PUT).each do |verb|
+        class_eval "#{verb.downcase} { '#{verb}' }"
+        class_eval "#{verb.downcase}('/') { '#{verb}' }"
+        class_eval "#{verb.downcase}('/route.json') { '#{verb} /route.json' }"
+        class_eval "#{verb.downcase}('/route/:id.json') { request.params[:id] }"
+        class_eval "#{verb.downcase}('/:name') { request.params[:name] }"
+      end
+    end
   end
 
   %w(DELETE GET HEAD OPTIONS PATCH POST PUT).each do |verb|
     str = <<EOS
   describe "::#{verb.downcase}" do
     it 'must add a route to @routes' do
-      route = TestBaseApp.routes['#{verb}'].first
+      route = app.to_app.class.routes['#{verb}'].first
       route[:path].must_equal ''
     end
 
     it 'must extract the extra_params' do
-      route = TestBaseApp.routes['#{verb}'].last
+      route = app.to_app.class.routes['#{verb}'].last
       route[:extra_params].must_equal [:name]
     end
   end
@@ -25,7 +34,7 @@ EOS
   end
 
   describe '::settings' do
-    let(:settings) { TestBaseApp.settings }
+    let(:settings) { app.to_app.class.settings }
 
     it 'must return a hash with (at least) a request_class and response_class keys' do
       settings.must_be_kind_of Hash
@@ -44,7 +53,7 @@ EOS
 
   describe '::stack' do
     it 'must return an instance of Rack::Builder' do
-      TestBaseApp.stack.must_be_kind_of Rack::Builder
+      app.to_app.class.stack.must_be_kind_of Rack::Builder
     end
   end
 
@@ -56,13 +65,13 @@ EOS
 
   describe '::new' do
     it 'should return an instance of Rack::Builder' do
-      TestBaseApp.new.must_be_kind_of Rack::Builder
+      app.must_be_kind_of Rack::Builder
     end
   end
 
   describe '::routes' do
     it 'must return a Hash' do
-      TestBaseApp.routes.must_be_kind_of Hash
+      app.to_app.class.routes.must_be_kind_of Hash
     end
   end
 
@@ -118,7 +127,6 @@ EOS
   end
 
   it 'must respond to call' do
-    app = TestBaseApp.new
-    app.must_respond_to :call
+    app.to_app.must_respond_to :call
   end
 end

@@ -1,10 +1,22 @@
 require 'minitest_helper'
 
 describe Hobbit::Session do
+  include Hobbit::Mock
   include Rack::Test::Methods
 
   def app
-    TestSessionApp.new
+    mock_app do
+      include Hobbit::Session
+      use Rack::Session::Cookie, secret: SecureRandom.hex(64)
+
+      get '/' do
+        session[:name] = 'hobbit'
+      end
+
+      get '/name' do
+        session[:name]
+      end
+    end
   end
 
   describe '#session' do
