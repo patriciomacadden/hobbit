@@ -63,18 +63,15 @@ module Hobbit
     private
 
     def route_eval
-      catch(:halt) do
-        self.class.routes[@request.request_method].each do |route|
-          if route[:compiled_path] =~ @request.path_info
-            route[:compiled_path].match(@request.path_info).captures.each_with_index do |value, index|
-              param = route[:extra_params][index]
-              @request.params[param] = value
-            end
-            @response.write instance_eval(&route[:block])
-            throw :halt
-          end
+      route = self.class.routes[request.request_method].select { |route| route[:compiled_path] =~ request.path_info }.first
+      if route
+        route[:compiled_path].match(request.path_info).captures.each_with_index do |value, index|
+          param = route[:extra_params][index]
+          request.params[param] = value
         end
-        @response.status = 404
+        response.write instance_eval(&route[:block])
+      else
+        response.status = 404
       end
     end
   end
