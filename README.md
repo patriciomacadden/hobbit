@@ -446,17 +446,7 @@ In `public/stylesheets/application.css`:
 h1 { color: blue; }
 ```
 
-## Extending Hobbit
-
-You can extend hobbit by creating modules or classes. See `Hobbit::Render` or
-`Hobbit::Session` for examples.
-
-### Hobbit::Contrib
-
-See [hobbit-contrib](https://github.com/patriciomacadden/hobbit-contrib) for
-more hobbit extensions!
-
-## Testing Hobbit applications
+### Testing Hobbit applications
 
 [rack-test](https://github.com/brynary/rack-test) is highly recommended. See
 an example:
@@ -500,6 +490,16 @@ end
 ```
 
 Please see the [rack-test](https://github.com/brynary/rack-test) documentation.
+
+## Extending Hobbit
+
+You can extend hobbit by creating modules or classes. See `Hobbit::Render` or
+`Hobbit::Session` for examples.
+
+### Hobbit::Contrib
+
+See [hobbit-contrib](https://github.com/patriciomacadden/hobbit-contrib) for
+more hobbit extensions!
 
 ## Contributing
 
