@@ -490,9 +490,11 @@ describe App do
   end
 
   describe 'GET /' do
-    get '/'
-    last_response.must_be :ok?
-    last_response.body.must_match /Hello World!/
+    it 'must be ok' do
+      get '/'
+      last_response.must_be :ok?
+      last_response.body.must_match /Hello World!/
+    end
   end
 end
 ```
