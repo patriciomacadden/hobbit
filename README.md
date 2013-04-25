@@ -456,6 +456,49 @@ You can extend hobbit by creating modules or classes. See `Hobbit::Render` or
 See [hobbit-contrib](https://github.com/patriciomacadden/hobbit-contrib) for
 more hobbit extensions!
 
+## Testing Hobbit applications
+
+[rack-test](https://github.com/brynary/rack-test) is highly recommended. See
+an example:
+
+In `app.rb`:
+
+```ruby
+require 'hobbit'
+
+class App < Hobbit::Base
+  get '/' do
+    'Hello World!'
+  end
+end
+
+run App.new
+```
+
+In `app_spec.rb`:
+
+```ruby
+require 'minitest/autorun'
+# imagine that app.rb and app_spec.rb are stored in the same directory
+require 'app'
+
+describe App do
+  include Rack::Test::Methods
+
+  def app
+    App.new
+  end
+
+  describe 'GET /' do
+    get '/'
+    last_response.must_be :ok?
+    last_response.body.must_match /Hello World!/
+  end
+end
+```
+
+Please see the [rack-test](https://github.com/brynary/rack-test) documentation.
+
 ## Contributing
 
 1. Fork it
