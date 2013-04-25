@@ -63,7 +63,7 @@ module Hobbit
     private
 
     def route_eval
-      route = self.class.routes[request.request_method].select { |r| r[:compiled_path] =~ request.path_info }.first
+      route = self.class.routes[request.request_method].detect { |r| r[:compiled_path] =~ request.path_info }
       if route
         route[:compiled_path].match(request.path_info).captures.each_with_index do |value, index|
           param = route[:extra_params][index]
