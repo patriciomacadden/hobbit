@@ -3,12 +3,12 @@ ENV['RACK_ENV'] ||= 'test'
 require 'bundler'
 Bundler.require :default, ENV['RACK_ENV'].to_sym
 
+require 'coveralls'
+Coveralls.wear!
+
 require 'minitest/autorun'
 require 'rack'
 require 'rack/test'
-
-require 'coveralls'
-Coveralls.wear!
 
 require 'hobbit'
 
