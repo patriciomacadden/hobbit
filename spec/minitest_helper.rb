@@ -7,6 +7,9 @@ require 'minitest/autorun'
 require 'rack'
 require 'rack/test'
 
+require 'coveralls'
+Coveralls.wear!
+
 require 'hobbit'
 
 module Hobbit
