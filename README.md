@@ -40,6 +40,7 @@ the included modules and [hobbit-contrib](https://github.com/patriciomacadden/ho
 its extensions.
 * Request and response classes could be injected (Defaults to `Rack::Request`
 and `Hobbit::Response`, respectively).
+* Is [very fast](https://github.com/patriciomacadden/microbenchmarks).
 
 ## Usage
 
