@@ -333,7 +333,8 @@ Sinatra-like error handling.
 
 ## Futher documentation
 
-See the [hobbit wiki](https://github.com/patriciomacadden/hobbit/wiki).
+The [hobbit wiki](https://github.com/patriciomacadden/hobbit/wiki) contain
+guides, how-tos and recipes for a better hobbit experience.
 
 ## Contributing
 
