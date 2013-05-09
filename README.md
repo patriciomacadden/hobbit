@@ -27,15 +27,18 @@ $ gem install hobbit
 ## Features
 
 * DSL inspired by [Sinatra](http://www.sinatrarb.com/).
-* [Don't repeat yourself](http://en.wikipedia.org/wiki/Don't_repeat_yourself)
 * [Speed](https://github.com/patriciomacadden/microbenchmarks).
-* Encourages the understanding and use of [Rack](http://rack.github.io/) and
-its extensions instead of providing such functionality.
 * Extensible with standard ruby classes and modules, with no extra logic. See
 [hobbit-contrib](https://github.com/patriciomacadden/hobbit-contrib).
 * Zero configuration.
 * Request and response classes could be injected (Defaults to `Rack::Request`
 and `Hobbit::Response`, respectively).
+
+## Philosophy
+
+* [Don't repeat yourself](http://en.wikipedia.org/wiki/Don't_repeat_yourself)
+* Encourages the understanding and use of [Rack](http://rack.github.io/) and
+its extensions instead of providing such functionality.
 
 ## Usage
 
@@ -57,7 +60,7 @@ class App < Hobbit::Base
 end
 ```
 
-Then create a `config.ru` file:
+Create a `config.ru` file:
 
 ```ruby
 require './app'
@@ -65,7 +68,7 @@ require './app'
 run App.new
 ```
 
-Then run it with `rackup`:
+Run it with `rackup`:
 
 ```bash
 $ rackup
@@ -111,7 +114,7 @@ class App < Hobbit::Base
 end
 ```
 
-Additionally, when a route gets called you have this methods available:
+When a route gets called you have this methods available:
 
 * `env`: The Rack environment.
 * `request`: a `Rack::Request` instance.
@@ -223,6 +226,20 @@ end
 run App.new
 ```
 
+### Request and response classes
+
+You can inject the request (`Rack::Request`) and response (`Hobbit::Response`)
+classes for your application. Do it like this:
+
+```ruby
+class App < Hobbit::Base
+  settings[:request_class] = MyRequest
+  settings[:response_class] = MyResponse
+
+  # the rest of your app...
+end
+```
+
 ### Security
 
 By default, `hobbit` (nor Rack) comes without any protection against web
@@ -247,7 +264,7 @@ end
 Please see the [rack-protection](https://github.com/rkh/rack-protection)
 documentation for futher information.
 
-### Testing Hobbit applications
+### Testing
 
 [rack-test](https://github.com/brynary/rack-test) is highly recommended. See
 an example:
@@ -291,21 +308,19 @@ end
 Please see the [rack-test](https://github.com/brynary/rack-test) documentation
 for futher information.
 
-### Extending Hobbit
+### Extensions
 
 You can extend hobbit by creating standard ruby modules. See an example:
 
 ```ruby
-module Hobbit
-  module SomeExtension
-    def do_something
-      # do something
-    end
+module MyExtension
+  def do_something
+    # do something
   end
 end
 
 class App < Hobbit::Base
-  include Hobbit::SomeExtension
+  include MyExtension
 
   get '/' do
     do_something
