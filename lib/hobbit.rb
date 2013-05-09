@@ -1,5 +1,3 @@
 require 'hobbit/base'
-require 'hobbit/render'
 require 'hobbit/response'
-require 'hobbit/session'
 require 'hobbit/version'
