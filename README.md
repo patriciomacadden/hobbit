@@ -334,8 +334,7 @@ end
 [hobbit-contrib](https://github.com/patriciomacadden/hobbit-contrib) is a ruby
 gem that comes with a lot of hobbit extensions, such as:
 
-* `Hobbit::Render`: provides a (very) basic template rendering module.
-* `Hobbit::EnhancedRender`: provides an enhanced template rendering module.
+* `Hobbit::Render`: provides basic template rendering.
 * `Hobbit::Session`: provides helper methods for handling user sessions.
 * `Hobbit::Environment`: provides helper methods for handling application
 environments.
@@ -346,10 +345,10 @@ Sinatra-like error handling.
 
 ... And many more!
 
-## Futher documentation
+## Community
 
-The [hobbit wiki](https://github.com/patriciomacadden/hobbit/wiki) contains
-guides, how-tos and recipes for a better hobbit experience.
+* [Wiki](https://github.com/patriciomacadden/hobbit/wiki): Guides, how-tos and recipes
+* IRC: [#hobbitrb](irc://chat.freenode.net/#hobbitrb) on [http://freenode.net](http://freenode.net)
 
 ## Contributing
 
