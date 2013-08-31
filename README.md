@@ -31,8 +31,6 @@ $ gem install hobbit
 * Extensible with standard ruby classes and modules, with no extra logic. See
 [hobbit-contrib](https://github.com/patriciomacadden/hobbit-contrib).
 * Zero configuration.
-* Request and response classes could be injected (Defaults to `Rack::Request`
-and `Hobbit::Response`, respectively).
 
 ## Philosophy
 
@@ -224,20 +222,6 @@ class App < Hobbit::Base
 end
 
 run App.new
-```
-
-### Request and response classes
-
-You can inject the request (`Rack::Request`) and response (`Hobbit::Response`)
-classes for your application. Do it like this:
-
-```ruby
-class App < Hobbit::Base
-  settings[:request_class] = MyRequest
-  settings[:response_class] = MyResponse
-
-  # the rest of your app...
-end
 ```
 
 ### Security

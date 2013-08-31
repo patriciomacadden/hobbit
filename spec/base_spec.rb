@@ -33,24 +33,6 @@ EOS
     class_eval str
   end
 
-  describe '::settings' do
-    let(:settings) { app.to_app.class.settings }
-
-    it 'must return a hash with (at least) a request_class and response_class keys' do
-      settings.must_be_kind_of Hash
-      settings.must_include :request_class
-      settings.must_include :response_class
-    end
-
-    it 'must be initialized with request_class as Rack::Request' do
-      settings[:request_class].must_equal Rack::Request
-    end
-
-    it 'must be initialized with request_class as Hobbit::Response' do
-      settings[:response_class].must_equal Hobbit::Response
-    end
-  end
-
   describe '::stack' do
     it 'must return an instance of Rack::Builder' do
       app.to_app.class.stack.must_be_kind_of Rack::Builder
