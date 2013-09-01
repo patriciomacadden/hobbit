@@ -16,7 +16,7 @@ module Hobbit
   module Mock
     def mock_app(&block)
       app = Class.new Hobbit::Base, &block
-      app.new
+      @app = app.new
     end
   end
 end

@@ -5,6 +5,10 @@ describe Hobbit::Base do
   include Rack::Test::Methods
 
   def app
+    @app
+  end
+
+  before do
     mock_app do
       %w(DELETE GET HEAD OPTIONS PATCH POST PUT).each do |verb|
         class_eval "#{verb.downcase} { '#{verb}' }"
@@ -40,8 +44,19 @@ EOS
   end
 
   describe '::map' do
+    before do
+      mock_app do
+        map '/map' do
+          run Proc.new { |env| [200, {}, ['from map']] }
+        end
+
+        get('/') { 'hello world' }
+      end
+    end
+
     it 'must mount a application to the rack stack' do
-      skip '::map'
+      get '/map'
+      last_response.body.must_equal 'from map'
     end
   end
 
@@ -58,8 +73,29 @@ EOS
   end
 
   describe '::use' do
+    before do
+      mock_app do
+        middleware = Class.new do
+          def initialize(app = nil)
+            @app = app
+          end
+
+          def call(env)
+            request = Rack::Request.new(env)
+            @app.call(env) unless request.path_info == '/use'
+            [200, {}, 'from use']
+          end
+        end
+
+        use middleware
+
+        get('/') { 'hello world' }
+      end
+    end
+
     it 'must add a middleware to the rack stack' do
-      skip '::use'
+      get '/use'
+      last_response.body.must_equal 'from use'
     end
   end
 
