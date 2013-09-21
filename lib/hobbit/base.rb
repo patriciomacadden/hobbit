@@ -9,9 +9,9 @@ module Hobbit
         stack.map(path, &block)
       end
 
-      alias :new! :new
+      alias :_new :new
       def new(*args, &block)
-        stack.run new!(*args, &block)
+        stack.run _new(*args, &block)
         stack
       end
 
