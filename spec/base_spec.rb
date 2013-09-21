@@ -37,12 +37,6 @@ EOS
     class_eval str
   end
 
-  describe '::stack' do
-    it 'must return an instance of Rack::Builder' do
-      app.to_app.class.stack.must_be_kind_of Rack::Builder
-    end
-  end
-
   describe '::map' do
     before do
       mock_app do
@@ -69,6 +63,12 @@ EOS
   describe '::routes' do
     it 'must return a Hash' do
       app.to_app.class.routes.must_be_kind_of Hash
+    end
+  end
+
+  describe '::stack' do
+    it 'must return an instance of Rack::Builder' do
+      app.to_app.class.stack.must_be_kind_of Rack::Builder
     end
   end
 
