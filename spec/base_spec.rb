@@ -106,7 +106,7 @@ EOS
       path = ''
       route = Hobbit::Base.send :compile_route, path, &block
       route[:block].call({}).must_equal block.call({})
-      route[:compiled_path].must_equal /^$/
+      route[:compiled_path].to_s.must_equal /^$/.to_s
       route[:extra_params].must_equal []
       route[:path].must_equal path
     end
@@ -115,7 +115,7 @@ EOS
       path = '/'
       route = Hobbit::Base.send :compile_route, path, &block
       route[:block].call({}).must_equal block.call({})
-      route[:compiled_path].must_equal /^\/$/
+      route[:compiled_path].to_s.must_equal /^\/$/.to_s
       route[:extra_params].must_equal []
       route[:path].must_equal path
     end
@@ -124,7 +124,7 @@ EOS
       path = '/route.json'
       route = Hobbit::Base.send :compile_route, path, &block
       route[:block].call({}).must_equal block.call({})
-      route[:compiled_path].must_equal /^\/route.json$/
+      route[:compiled_path].to_s.must_equal /^\/route.json$/.to_s
       route[:extra_params].must_equal []
       route[:path].must_equal path
     end
@@ -133,7 +133,7 @@ EOS
       path = '/hello-world'
       route = Hobbit::Base.send :compile_route, path, &block
       route[:block].call({}).must_equal block.call({})
-      route[:compiled_path].must_equal /^\/hello-world$/
+      route[:compiled_path].to_s.must_equal /^\/hello-world$/.to_s
       route[:extra_params].must_equal []
       route[:path].must_equal path
     end
@@ -142,14 +142,14 @@ EOS
       path = '/hello/:name'
       route = Hobbit::Base.send :compile_route, path, &block
       route[:block].call({}).must_equal block.call({})
-      route[:compiled_path].must_equal /^\/hello\/([^\/?#]+)$/
+      route[:compiled_path].to_s.must_equal /^\/hello\/([^\/?#]+)$/.to_s
       route[:extra_params].must_equal [:name]
       route[:path].must_equal path
 
       path = '/say/:something/to/:someone'
       route = Hobbit::Base.send :compile_route, path, &block
       route[:block].call({}).must_equal block.call({})
-      route[:compiled_path].must_equal /^\/say\/([^\/?#]+)\/to\/([^\/?#]+)$/
+      route[:compiled_path].to_s.must_equal /^\/say\/([^\/?#]+)\/to\/([^\/?#]+)$/.to_s
       route[:extra_params].must_equal [:something, :someone]
       route[:path].must_equal path
     end
@@ -158,7 +158,7 @@ EOS
       path = '/route/:id.json'
       route = Hobbit::Base.send :compile_route, path, &block
       route[:block].call({}).must_equal block.call({})
-      route[:compiled_path].must_equal /^\/route\/([^\/?#]+).json$/
+      route[:compiled_path].to_s.must_equal /^\/route\/([^\/?#]+).json$/.to_s
       route[:extra_params].must_equal [:id]
       route[:path].must_equal path
     end
