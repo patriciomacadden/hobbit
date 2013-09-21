@@ -99,6 +99,71 @@ EOS
     end
   end
 
+  describe '::compile_route' do
+    let(:block) { block = Proc.new { |env| [200, {}, []] } }
+
+    it 'must compile an empty string' do
+      path = ''
+      route = Hobbit::Base.send :compile_route, path, &block
+      route[:block].call({}).must_equal block.call({})
+      route[:compiled_path].must_equal /^$/
+      route[:extra_params].must_equal []
+      route[:path].must_equal path
+    end
+
+    it 'must compile /' do
+      path = '/'
+      route = Hobbit::Base.send :compile_route, path, &block
+      route[:block].call({}).must_equal block.call({})
+      route[:compiled_path].must_equal /^\/$/
+      route[:extra_params].must_equal []
+      route[:path].must_equal path
+    end
+
+    it 'must compile with .' do
+      path = '/route.json'
+      route = Hobbit::Base.send :compile_route, path, &block
+      route[:block].call({}).must_equal block.call({})
+      route[:compiled_path].must_equal /^\/route.json$/
+      route[:extra_params].must_equal []
+      route[:path].must_equal path
+    end
+
+    it 'must compile with -' do
+      path = '/hello-world'
+      route = Hobbit::Base.send :compile_route, path, &block
+      route[:block].call({}).must_equal block.call({})
+      route[:compiled_path].must_equal /^\/hello-world$/
+      route[:extra_params].must_equal []
+      route[:path].must_equal path
+    end
+
+    it 'must compile with params' do
+      path = '/hello/:name'
+      route = Hobbit::Base.send :compile_route, path, &block
+      route[:block].call({}).must_equal block.call({})
+      route[:compiled_path].must_equal /^\/hello\/([^\/?#]+)$/
+      route[:extra_params].must_equal [:name]
+      route[:path].must_equal path
+
+      path = '/say/:something/to/:someone'
+      route = Hobbit::Base.send :compile_route, path, &block
+      route[:block].call({}).must_equal block.call({})
+      route[:compiled_path].must_equal /^\/say\/([^\/?#]+)\/to\/([^\/?#]+)$/
+      route[:extra_params].must_equal [:something, :someone]
+      route[:path].must_equal path
+    end
+
+    it 'must compile with . and params' do
+      path = '/route/:id.json'
+      route = Hobbit::Base.send :compile_route, path, &block
+      route[:block].call({}).must_equal block.call({})
+      route[:compiled_path].must_equal /^\/route\/([^\/?#]+).json$/
+      route[:extra_params].must_equal [:id]
+      route[:path].must_equal path
+    end
+  end
+
   describe '#call' do
     %w(DELETE GET HEAD OPTIONS PATCH POST PUT).each do |verb|
       str = <<EOS
