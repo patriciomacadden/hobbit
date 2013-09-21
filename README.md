@@ -40,7 +40,7 @@ its extensions instead of providing such functionality.
 
 ## Usage
 
-`Hobbit` applications are just instances of classes that inherits from
+Hobbit applications are just instances of classes that inherits from
 `Hobbit::Base`, which complies the
 [Rack SPEC](http://rack.rubyforge.org/doc/SPEC.html).
 
@@ -118,6 +118,8 @@ When a route gets called you have this methods available:
 * `request`: a `Rack::Request` instance.
 * `response`: a `Hobbit::Response` instance.
 
+And any other method defined in your application.
+
 #### Available methods
 
 * `delete`
@@ -174,7 +176,7 @@ end
 
 ### Built on top of rack
 
-Each hobbit application is a Rack stack (See this
+Each Hobbit application is a Rack stack (See this
 [blog post](http://m.onkey.org/ruby-on-rack-2-the-builder) for more
 information).
 
@@ -210,9 +212,12 @@ You can add any Rack middleware to the stack by using the `use` class method:
 require 'hobbit'
 
 class App < Hobbit::Base
-  include Hobbit::Session
   use Rack::Session::Cookie, secret: SecureRandom.hex(64)
   use Rack::ShowExceptions
+
+  def session
+    env['rack.session']
+  end
 
   get '/' do
     session[:name] = 'hobbit'
@@ -226,7 +231,7 @@ run App.new
 
 ### Security
 
-By default, `hobbit` (nor Rack) comes without any protection against web
+By default, Hobbit (nor Rack) comes without any protection against web
 attacks. The use of [rack-protection](https://github.com/rkh/rack-protection)
 is highly recommended:
 
@@ -245,7 +250,7 @@ class App < Hobbit::Base
 end
 ```
 
-Please see the [rack-protection](https://github.com/rkh/rack-protection)
+See the [rack-protection](https://github.com/rkh/rack-protection)
 documentation for futher information.
 
 ### Testing
@@ -289,12 +294,12 @@ describe App do
 end
 ```
 
-Please see the [rack-test](https://github.com/brynary/rack-test) documentation
+See the [rack-test](https://github.com/brynary/rack-test) documentation
 for futher information.
 
 ### Extensions
 
-You can extend hobbit by creating standard ruby modules. See an example:
+You can extend Hobbit by creating standard ruby modules. See an example:
 
 ```ruby
 module MyExtension
