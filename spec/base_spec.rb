@@ -11,7 +11,6 @@ describe Hobbit::Base do
   before do
     mock_app do
       %w(DELETE GET HEAD OPTIONS PATCH POST PUT).each do |verb|
-        class_eval "#{verb.downcase} { '#{verb}' }"
         class_eval "#{verb.downcase}('/') { '#{verb}' }"
         class_eval "#{verb.downcase}('/route.json') { '#{verb} /route.json' }"
         class_eval "#{verb.downcase}('/route/:id.json') { request.params[:id] }"
@@ -25,7 +24,7 @@ describe Hobbit::Base do
   describe "::#{verb.downcase}" do
     it 'must add a route to @routes' do
       route = app.to_app.class.routes['#{verb}'].first
-      route[:path].must_equal ''
+      route[:path].must_equal '/'
     end
 
     it 'must extract the extra_params' do
@@ -102,15 +101,6 @@ EOS
   describe '::compile_route' do
     let(:block) { block = Proc.new { |env| [200, {}, []] } }
 
-    it 'must compile an empty string' do
-      path = ''
-      route = Hobbit::Base.send :compile_route, path, &block
-      route[:block].call({}).must_equal block.call({})
-      route[:compiled_path].to_s.must_equal /^$/.to_s
-      route[:extra_params].must_equal []
-      route[:path].must_equal path
-    end
-
     it 'must compile /' do
       path = '/'
       route = Hobbit::Base.send :compile_route, path, &block
@@ -168,6 +158,12 @@ EOS
     %w(DELETE GET HEAD OPTIONS PATCH POST PUT).each do |verb|
       str = <<EOS
     describe 'when the request matches a route' do
+      it 'must match #{verb} ""' do
+        #{verb.downcase} ''
+        last_response.must_be :ok?
+        last_response.body.must_equal '#{verb}'
+      end
+
       it 'must match #{verb} /' do
         #{verb.downcase} '/'
         last_response.must_be :ok?
