@@ -1,12 +1,14 @@
+require 'forwardable'
+
 module Hobbit
   class Base
     class << self
+      extend Forwardable
+
+      def_delegators :stack, :map, :use
+
       %w(DELETE GET HEAD OPTIONS PATCH POST PUT).each do |verb|
         define_method(verb.downcase) { |path, &block| routes[verb] << compile_route(path, &block) }
-      end
-
-      def map(path, &block)
-        stack.map(path, &block)
       end
 
       alias :_new :new
@@ -21,10 +23,6 @@ module Hobbit
 
       def stack
         @stack ||= Rack::Builder.new
-      end
-
-      def use(middleware, *args, &block)
-        stack.use(middleware, *args, &block)
       end
 
       private
