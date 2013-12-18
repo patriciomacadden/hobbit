@@ -205,6 +205,24 @@ EOS
     end
   end
 
+  describe '::halt' do
+    before do
+      mock_app do
+        get('/halt') do
+          halt 501, 'Halt!'
+
+          response.write 'Hello world'
+        end
+      end
+    end
+
+    it 'return the response given to halt function' do
+      get '/halt'
+      last_response.body.must_equal 'Halt!'
+      last_response.status.must_equal 501
+    end
+  end
+
   it 'must respond to call' do
     app.to_app.must_respond_to :call
   end
