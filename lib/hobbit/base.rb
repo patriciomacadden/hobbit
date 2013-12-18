@@ -57,7 +57,7 @@ module Hobbit
 
     def halt(status, message = '')
       response.status = status
-      response.body = [message]
+      response.body = Array(message)
       throw :halt, response
     end
 
