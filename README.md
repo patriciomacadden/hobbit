@@ -240,7 +240,19 @@ halt 410
 And also you can add a body:
 
 ``` ruby
-halt 410, 'this will be the body'
+halt 410, body: 'this will be the body'
+```
+
+Or header:
+
+``` ruby
+halt 410, header: { 'Content-Type' => 'text/html;' }
+```
+
+Or both:
+
+``` ruby
+halt 410, header: { 'Content-Type' => 'text/html;' }, body: 'Woops'
 ```
 
 
