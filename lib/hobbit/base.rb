@@ -55,9 +55,18 @@ module Hobbit
       @response.finish
     end
 
-    def halt(status, message = '')
-      response.status = status
-      response.body = Array(message)
+    # Stops the execution and return a response
+    #
+    # status  | Number - HTTP status code
+    # options | Hash
+    #   :body     - Response body
+    #   :headers  - Response headers
+    #
+    def halt(status, options = {})
+      @response = Hobbit::Response.new(
+                    Array(options.delete :body),
+                    status,
+                    options.delete(:headers) || {})
       throw :halt, response
     end
 
