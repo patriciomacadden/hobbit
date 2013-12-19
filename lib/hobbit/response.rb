@@ -2,7 +2,7 @@ require 'forwardable'
 
 module Hobbit
   class Response
-    attr_accessor :body, :headers, :length, :status
+    attr_accessor :body, :headers, :status
     extend Forwardable
     def_delegators :headers, :[], :[]=
 
