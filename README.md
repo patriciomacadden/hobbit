@@ -231,30 +231,78 @@ run App.new
 
 #### Halting
 
-To immediately stop a request within a filter or route you must specify the status:
+To immediately stop a request within a filter or route you must specify the
+status:
 
-``` ruby
-halt 410
+```ruby
+require 'hobbit'
+
+class App < Hobbit::Base
+  use Rack::Session::Cookie, secret: SecureRandom.hex(64)
+
+  def session
+    env['rack.session']
+  end
+
+  get '/' do
+    halt 401 unless session['user_id']
+  end
+end
 ```
 
 And also you can add a body:
 
-``` ruby
-halt 410, body: 'this will be the body'
+```ruby
+require 'hobbit'
+
+class App < Hobbit::Base
+  use Rack::Session::Cookie, secret: SecureRandom.hex(64)
+
+  def session
+    env['rack.session']
+  end
+
+  get '/' do
+    halt 401, body: 'This will be the body' unless session['user_id']
+  end
+end
 ```
 
-Or header:
+Or headers:
 
-``` ruby
-halt 410, header: { 'Content-Type' => 'text/html;' }
+```ruby
+require 'hobbit'
+
+class App < Hobbit::Base
+  use Rack::Session::Cookie, secret: SecureRandom.hex(64)
+
+  def session
+    env['rack.session']
+  end
+
+  get '/' do
+    halt 401, headers: { 'Content-Type' => 'text/html; charset=utf-8' }
+  end
+end
 ```
 
 Or both:
 
 ``` ruby
-halt 410, header: { 'Content-Type' => 'text/html;' }, body: 'Woops'
-```
+require 'hobbit'
 
+class App < Hobbit::Base
+  use Rack::Session::Cookie, secret: SecureRandom.hex(64)
+
+  def session
+    env['rack.session']
+  end
+
+  get '/' do
+    halt 401, headers: { 'Content-Type' => 'text/html; charset=utf-8' }, body: 'Woops'
+  end
+end
+```
 
 ### Security
 

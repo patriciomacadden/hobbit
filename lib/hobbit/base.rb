@@ -73,7 +73,7 @@ module Hobbit
 
     def route_eval
       catch :halt do
-        if route = route_matched
+        if route = find_route
           response.write instance_eval(&route[:block])
         else
           halt 404
@@ -83,7 +83,7 @@ module Hobbit
       end
     end
 
-    def route_matched
+    def find_route
       route = self.class.routes[request.request_method].detect do |r|
         r[:compiled_path] =~ request.path_info
       end
@@ -97,6 +97,5 @@ module Hobbit
 
       route
     end
-
   end
 end
