@@ -1,3 +1,7 @@
+# 0.4.0
+
+* Add halt method.
+
 # 0.3.1
 
 * Remove unused `attr_accessor` (`:length`) from `Hobbit::Response`.
