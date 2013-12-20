@@ -205,6 +205,65 @@ EOS
     end
   end
 
+  describe '::halt' do
+    before do
+      mock_app do
+        get('/halt') do
+          halt 501
+          response.write 'Hello world'
+        end
+
+        get('/halt_string') do
+          halt 501, body: 'Halt!'
+        end
+
+        get('/halt_array') do
+          halt 501, body: ['Halt!']
+        end
+
+        get('/halt_hash') do
+          halt 501, body: { message: 'Halt!' }
+        end
+
+        get('/halt_headers') do
+          halt 501, headers: { header: 'OK' }
+        end
+      end
+    end
+
+    it 'return the response given to halt function' do
+      get '/halt'
+      last_response.headers.must_equal({"Content-Length" => nil})
+      last_response.body.must_equal ''
+      last_response.status.must_equal 501
+    end
+
+    it 'accepts a string as body' do
+      get '/halt_string'
+      last_response.body.must_equal 'Halt!'
+      last_response.status.must_equal 501
+    end
+
+    it 'accepts an Array as body' do
+      get '/halt_array'
+      last_response.body.must_equal 'Halt!'
+      last_response.status.must_equal 501
+    end
+
+    it 'accepts a Hash as body' do
+      get '/halt_hash'
+      last_response.body.must_equal '[:message, "Halt!"]'
+      last_response.status.must_equal 501
+    end
+
+    it 'accepts headers' do
+      get '/halt_headers'
+      last_response.headers.must_equal({:header=>"OK", "Content-Length"=>nil})
+      last_response.status.must_equal 501
+    end
+
+  end
+
   it 'must respond to call' do
     app.to_app.must_respond_to :call
   end

@@ -55,19 +55,48 @@ module Hobbit
       @response.finish
     end
 
+    # Stops the execution and return a response
+    #
+    # status  | Number - HTTP status code
+    # body    | Response body
+    # headers | Response headers
+    #
+    def halt(status, headers: {}, body: [])
+      response.status = status # Without a default, the user must know why is using halt 
+      response.headers = headers
+      response.body = Array(body) # With this we support strings, arrays or hashes
+
+      throw :halt, response
+    end
+
     private
 
     def route_eval
-      route = self.class.routes[request.request_method].detect { |r| r[:compiled_path] =~ request.path_info }
+      catch :halt do
+        if route = route_matched
+          response.write instance_eval(&route[:block])
+        else
+          halt 404
+        end
+
+        response
+      end
+    end
+
+    def route_matched
+      route = self.class.routes[request.request_method].detect do |r|
+        r[:compiled_path] =~ request.path_info
+      end
+
       if route
         $~.captures.each_with_index do |value, index|
           param = route[:extra_params][index]
           request.params[param] = value
         end
-        response.write instance_eval(&route[:block])
-      else
-        response.status = 404
       end
+
+      route
     end
+
   end
 end

@@ -229,6 +229,33 @@ end
 run App.new
 ```
 
+#### Halting
+
+To immediately stop a request within a filter or route you must specify the status:
+
+``` ruby
+halt 410
+```
+
+And also you can add a body:
+
+``` ruby
+halt 410, body: 'this will be the body'
+```
+
+Or header:
+
+``` ruby
+halt 410, header: { 'Content-Type' => 'text/html;' }
+```
+
+Or both:
+
+``` ruby
+halt 410, header: { 'Content-Type' => 'text/html;' }, body: 'Woops'
+```
+
+
 ### Security
 
 By default, Hobbit (nor Rack) comes without any protection against web
