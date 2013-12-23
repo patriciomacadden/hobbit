@@ -55,16 +55,16 @@ module Hobbit
       @response.finish
     end
 
-    # Stops the execution and return a response
+    # Stops the execution and returns a response.
     #
-    # status  | Number - HTTP status code
-    # body    | Response body
-    # headers | Response headers
-    #
+    # @param status [Fixnum] HTTP status code.
+    # @param headers [Hash] Response headers.
+    # @param body [Array] Response body.
+    # @return [Hobbit::Response] The Response.
     def halt(status, headers: {}, body: [])
-      response.status = status # Without a default, the user must know why is using halt 
+      response.status = status
       response.headers = headers
-      response.body = Array(body) # With this we support strings, arrays or hashes
+      response.body = Array(body)
 
       throw :halt, response
     end
