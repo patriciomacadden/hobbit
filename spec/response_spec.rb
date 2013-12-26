@@ -59,7 +59,7 @@ describe Hobbit::Response do
       response = Hobbit::Response.new body, status, headers
       s, h, b = response.finish
       h.must_include 'Content-Length'
-      h['Content-Length'].must_equal body.each.map(&:size).inject { |m, s| m += s }
+      h['Content-Length'].must_equal '17'
     end
   end
 
