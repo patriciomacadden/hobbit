@@ -1,3 +1,7 @@
+# 0.4.1
+
+* `Hobbit::Response` now returns the `Content-Length` header as a string.
+
 # 0.4.0
 
 * Add halt method.
