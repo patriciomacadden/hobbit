@@ -63,6 +63,22 @@ describe Hobbit::Response do
     end
   end
 
+  describe '#redirect' do
+    let(:response) { Hobbit::Response.new }
+
+    it 'must set the Location header and the status code' do
+      response.redirect '/hello'
+      response.headers['Location'].must_equal '/hello'
+      response.status.must_equal 302
+    end
+
+    it 'must set the Location header and the status code if given' do
+      response.redirect '/hello', 301
+      response.headers['Location'].must_equal '/hello'
+      response.status.must_equal 301
+    end
+  end
+
   describe '#write' do
     let(:response) { Hobbit::Response.new }
 

@@ -15,6 +15,11 @@ module Hobbit
       [status, headers, body]
     end
 
+    def redirect(target, status = 302)
+      headers['Location'] = target
+      self.status = status
+    end
+
     def write(string)
       self.body << string
     end
