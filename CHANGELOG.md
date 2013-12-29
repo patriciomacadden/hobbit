@@ -1,3 +1,8 @@
+# 0.4.2
+
+* Add `Hobbit::Response#redirect`, that was missing since `Hobbit::Response`
+isn't a `Rack::Response` subclass.
+
 # 0.4.1
 
 * `Hobbit::Response` now returns the `Content-Length` header as a string.
