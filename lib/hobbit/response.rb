@@ -11,13 +11,13 @@ module Hobbit
     end
 
     def finish
-      headers['Content-Length'] = body.each.map(&:size).inject { |memo, current| memo += current }.to_s
+      headers['Content-Length'] = body.each.map(&:size).inject(0) { |memo, current| memo += current }.to_s
       [status, headers, body]
     end
 
     def redirect(target, status = 302)
-      headers['Location'] = target
       self.status = status
+      headers['Location'] = target
     end
 
     def write(string)

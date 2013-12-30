@@ -61,6 +61,13 @@ describe Hobbit::Response do
       h.must_include 'Content-Length'
       h['Content-Length'].must_equal '17'
     end
+
+    it 'must calculate the Content-Length of the body, even if the body is empty' do
+      response = Hobbit::Response.new
+      s, h, b = response.finish
+      h.must_include 'Content-Length'
+      h['Content-Length'].must_equal '0'
+    end
   end
 
   describe '#redirect' do

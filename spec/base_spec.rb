@@ -231,9 +231,9 @@ EOS
       end
     end
 
-    it 'return the response given to halt function' do
+    it 'returns the response given to halt function' do
       get '/halt'
-      last_response.headers.must_equal({ 'Content-Length' => '' })
+      last_response.headers.must_equal({ 'Content-Length' => '0' })
       last_response.body.must_equal ''
       last_response.status.must_equal 501
     end
@@ -258,7 +258,7 @@ EOS
 
     it 'accepts headers' do
       get '/halt_headers'
-      last_response.headers.must_equal({ header: 'OK', 'Content-Length' => '' })
+      last_response.headers.must_equal({ header: 'OK', 'Content-Length' => '0' })
       last_response.status.must_equal 501
     end
   end
