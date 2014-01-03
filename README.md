@@ -27,7 +27,7 @@ $ gem install hobbit
 ## Features
 
 * DSL inspired by [Sinatra](http://www.sinatrarb.com/).
-* [Speed](https://github.com/patriciomacadden/microbenchmarks).
+* [Speed](https://github.com/luislavena/bench-micro).
 * Extensible with standard ruby classes and modules, with no extra logic. See
 [hobbit-contrib](https://github.com/patriciomacadden/hobbit-contrib).
 * Zero configuration.
