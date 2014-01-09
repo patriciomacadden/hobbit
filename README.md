@@ -174,61 +174,6 @@ class App < Hobbit::Base
 end
 ```
 
-### Built on top of rack
-
-Each Hobbit application is a Rack stack (See this
-[blog post](http://m.onkey.org/ruby-on-rack-2-the-builder) for more
-information).
-
-#### Mapping applications
-
-You can mount any Rack application to the stack by using the `map` class
-method:
-
-```ruby
-require 'hobbit'
-
-class InnerApp < Hobbit::Base
-  # gets called when path_info = '/inner'
-  get do
-    'Hello InnerApp!'
-  end
-end
-
-class App < Hobbit::Base
-  map('/inner') { run InnerApp.new }
-
-  get '/' do
-    'Hello App!'
-  end
-end
-```
-
-#### Using middleware
-
-You can add any Rack middleware to the stack by using the `use` class method:
-
-```ruby
-require 'hobbit'
-
-class App < Hobbit::Base
-  use Rack::Session::Cookie, secret: SecureRandom.hex(64)
-  use Rack::ShowExceptions
-
-  def session
-    env['rack.session']
-  end
-
-  get '/' do
-    session[:name] = 'hobbit'
-  end
-
-  # more routes...
-end
-
-run App.new
-```
-
 #### Halting
 
 To immediately stop a request within a filter or route you must specify the
@@ -302,6 +247,61 @@ class App < Hobbit::Base
     halt 401, headers: { 'Content-Type' => 'text/html; charset=utf-8' }, body: 'Woops'
   end
 end
+```
+
+### Built on top of rack
+
+Each Hobbit application is a Rack stack (See this
+[blog post](http://m.onkey.org/ruby-on-rack-2-the-builder) for more
+information).
+
+#### Mapping applications
+
+You can mount any Rack application to the stack by using the `map` class
+method:
+
+```ruby
+require 'hobbit'
+
+class InnerApp < Hobbit::Base
+  # gets called when path_info = '/inner'
+  get do
+    'Hello InnerApp!'
+  end
+end
+
+class App < Hobbit::Base
+  map('/inner') { run InnerApp.new }
+
+  get '/' do
+    'Hello App!'
+  end
+end
+```
+
+#### Using middleware
+
+You can add any Rack middleware to the stack by using the `use` class method:
+
+```ruby
+require 'hobbit'
+
+class App < Hobbit::Base
+  use Rack::Session::Cookie, secret: SecureRandom.hex(64)
+  use Rack::ShowExceptions
+
+  def session
+    env['rack.session']
+  end
+
+  get '/' do
+    session[:name] = 'hobbit'
+  end
+
+  # more routes...
+end
+
+run App.new
 ```
 
 ### Security
