@@ -11,7 +11,7 @@ module Hobbit
     end
 
     def finish
-      headers['Content-Length'] = body.each.map(&:size).inject(0) { |memo, current| memo += current }.to_s
+      headers['Content-Length'] = body.each.map(&:size).inject(0, &:+).to_s
       [status, headers, body]
     end
 
@@ -21,7 +21,7 @@ module Hobbit
     end
 
     def write(string)
-      self.body << string
+      body << string
     end
   end
 end
