@@ -11,7 +11,7 @@ module Hobbit
     end
 
     def finish
-      headers['Content-Length'] = body.each.map(&:bytesize).inject(0, &:+).to_s
+      headers['Content-Length'] = body.each.map { |i| i.is_a?(Array) ? i.map(&:to_s).map(&:bytesize) : i.bytesize }.flatten.inject(0, &:+).to_s
       [status, headers, body]
     end
 
