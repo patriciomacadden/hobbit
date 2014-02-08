@@ -1,3 +1,8 @@
+# 0.4.3
+
+* Calculate the `Content-Length` of a `Hobbit::Response` using `#bytesize`
+instead of `#size`.
+
 # 0.4.2
 
 * Add `Hobbit::Response#redirect`, that was missing since `Hobbit::Response`
