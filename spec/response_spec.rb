@@ -11,11 +11,15 @@ describe Hobbit::Response do
     end
 
     it 'must set the body, status and headers with arguments given' do
-      status, headers, body = 200, { 'Content-Type' => 'application/json' }, ['{"name":"Hobbit"}']
+      status, headers, body = 200, { 'Content-Type' => 'application/json' }, ['{"name": "Hobbit"}']
       response = Hobbit::Response.new body, status, headers
       response.status.must_equal status
       response.headers.must_equal headers
       response.body.must_equal body
+    end
+
+    it 'must raise a TypeError if body does not respond to :to_str or :each' do
+      proc { Hobbit::Response.new 1 }.must_raise TypeError
     end
   end
 
@@ -48,7 +52,7 @@ describe Hobbit::Response do
   describe '#finish' do
     let(:status) { 200 }
     let(:headers) { { 'Content-Type' => 'application/json' } }
-    let(:body) { ['{"name":"Hobbit"}'] }
+    let(:body) { ['{"name": "Hobbit"}'] }
 
     it 'must return a 3 elements array with status, headers and body' do
       response = Hobbit::Response.new body, status, headers
@@ -59,7 +63,7 @@ describe Hobbit::Response do
       response = Hobbit::Response.new body, status, headers
       s, h, b = response.finish
       h.must_include 'Content-Length'
-      h['Content-Length'].must_equal '17'
+      h['Content-Length'].must_equal '18'
     end
 
     it 'must calculate the Content-Length of the body, even if the body is empty' do

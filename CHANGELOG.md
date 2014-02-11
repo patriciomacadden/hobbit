@@ -1,3 +1,7 @@
+# 0.4.4
+
+* Refactor `Hobbit::Response`.
+
 # 0.4.3
 
 * Calculate the `Content-Length` of a `Hobbit::Response` using `#bytesize`

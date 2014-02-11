@@ -7,11 +7,20 @@ module Hobbit
     def_delegators :headers, :[], :[]=
 
     def initialize(body = [], status = 200, headers = { 'Content-Type' => 'text/html; charset=utf-8' })
-      @body, @headers, @status = body, headers, status
+      @body, @headers, @status = [], headers, status
+      @length = 0
+
+      if body.respond_to? :to_str
+        write body.to_str
+      elsif body.respond_to? :each
+        body.each { |i| write i.to_s }
+      else
+        raise TypeError, 'body must #respond_to? :to_str or :each'
+      end
     end
 
     def finish
-      headers['Content-Length'] = body.each.map { |i| i.is_a?(Array) ? i.map(&:to_s).map(&:bytesize) : i.bytesize }.flatten.inject(0, &:+).to_s
+      headers['Content-Length'] = @length.to_s
       [status, headers, body]
     end
 
@@ -21,7 +30,10 @@ module Hobbit
     end
 
     def write(string)
-      body << string
+      s = string.to_s
+      @length += s.bytesize
+
+      body << s
     end
   end
 end
