@@ -15,7 +15,7 @@ module Hobbit
       elsif body.respond_to? :each
         body.each { |i| write i.to_s }
       else
-        raise TypeError, 'body must #respond_to? :to_str or :each'
+        raise TypeError, 'body must #respond_to? #to_str or #each'
       end
     end
 
