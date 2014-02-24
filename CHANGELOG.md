@@ -1,3 +1,12 @@
+# 0.5.0 (Unreleased)
+
+* Refactor `Hobbit::Base#halt`. It now sets the status, merges the headers and
+writes the body (using `Hobbit::Response#write`) when given a fixnum, a hash or
+a string.
+* `Hobbit::Response` headers and body are not accessors anymore. This is
+because when you set the body directly, the `Content-Length` is not calculated
+(it's calculated on `#write`).
+
 # 0.4.4
 
 * Refactor `Hobbit::Response`.

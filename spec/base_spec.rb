@@ -205,61 +205,54 @@ EOS
     end
   end
 
-  describe '::halt' do
+  describe '#halt' do
     before do
       mock_app do
-        get '/halt' do
+        get '/halt_fixnum' do
           halt 501
           response.write 'Hello world'
         end
 
         get '/halt_string' do
-          halt 501, body: 'Halt!'
-        end
-
-        get '/halt_array' do
-          halt 501, body: ['Halt!']
+          halt 'Halt!'
         end
 
         get '/halt_hash' do
-          halt 501, body: { message: 'Halt!' }
+          halt({ header: 'OK' })
         end
 
-        get '/halt_headers' do
-          halt 501, headers: { header: 'OK' }
+        get '/halt_combined' do
+          halt 404, 'Not Found'
         end
       end
     end
 
     it 'returns the response given to halt function' do
-      get '/halt'
-      last_response.headers.must_equal({ 'Content-Length' => '0' })
+      get '/halt_fixnum'
       last_response.body.must_equal ''
+      last_response.headers.must_equal({ 'Content-Type' => 'text/html; charset=utf-8', 'Content-Length' => '0' })
       last_response.status.must_equal 501
     end
 
-    it 'accepts a string as body' do
+    it 'accepts body' do
       get '/halt_string'
       last_response.body.must_equal 'Halt!'
-      last_response.status.must_equal 501
-    end
-
-    it 'accepts an Array as body' do
-      get '/halt_array'
-      last_response.body.must_equal 'Halt!'
-      last_response.status.must_equal 501
-    end
-
-    it 'accepts a Hash as body' do
-      get '/halt_hash'
-      last_response.body.must_equal '[:message, "Halt!"]'
-      last_response.status.must_equal 501
+      last_response.headers.must_equal({ 'Content-Type' => 'text/html; charset=utf-8', 'Content-Length' => '5' })
+      last_response.status.must_equal 200
     end
 
     it 'accepts headers' do
-      get '/halt_headers'
-      last_response.headers.must_equal({ header: 'OK', 'Content-Length' => '0' })
-      last_response.status.must_equal 501
+      get '/halt_hash'
+      last_response.body.must_equal ''
+      last_response.headers.must_equal({ 'Content-Type' => 'text/html; charset=utf-8', 'Content-Length' => '0', header: 'OK' })
+      last_response.status.must_equal 200
+    end
+    
+    it 'accepts combinations' do
+      get '/halt_combined'
+      last_response.body.must_equal 'Not Found'
+      last_response.headers.must_equal({ 'Content-Type' => 'text/html; charset=utf-8', 'Content-Length' => '9' })
+      last_response.status.must_equal 404
     end
   end
 

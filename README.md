@@ -176,8 +176,8 @@ end
 
 #### Halting
 
-To immediately stop a request within a filter or route you must specify the
-status:
+To immediately stop a request within route you can use `halt`. You can also
+specify a status:
 
 ```ruby
 require 'hobbit'
@@ -195,7 +195,7 @@ class App < Hobbit::Base
 end
 ```
 
-And also you can add a body:
+Or body:
 
 ```ruby
 require 'hobbit'
@@ -208,7 +208,7 @@ class App < Hobbit::Base
   end
 
   get '/' do
-    halt 401, body: 'This will be the body' unless session['user_id']
+    halt 401, 'This will be the body' unless session['user_id']
   end
 end
 ```
@@ -226,7 +226,7 @@ class App < Hobbit::Base
   end
 
   get '/' do
-    halt 401, headers: { 'Content-Type' => 'text/html; charset=utf-8' }
+    halt 401, { 'Content-Type' => 'text/html; charset=utf-8' }
   end
 end
 ```
@@ -244,7 +244,7 @@ class App < Hobbit::Base
   end
 
   get '/' do
-    halt 401, headers: { 'Content-Type' => 'text/html; charset=utf-8' }, body: 'Woops'
+    halt 401, { 'Content-Type' => 'text/html; charset=utf-8' }, 'Woops'
   end
 end
 ```
