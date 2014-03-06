@@ -1,4 +1,4 @@
-# 0.5.0 (Unreleased)
+# 0.5.0
 
 * Refactor `Hobbit::Base#halt`. It now sets the status, merges the headers and
 writes the body (using `Hobbit::Response#write`) when given a fixnum, a hash or
