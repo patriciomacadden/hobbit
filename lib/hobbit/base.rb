@@ -51,7 +51,7 @@ module Hobbit
       @env = env
       @request = Rack::Request.new(@env)
       @response = Hobbit::Response.new
-      route_eval
+      catch(:halt) { route_eval }
       @response.finish
     end
 
@@ -66,14 +66,12 @@ module Hobbit
     private
 
     def route_eval
-      catch :halt do
-        if route = find_route
-          response.write instance_eval(&route[:block])
-        else
-          halt 404
-        end
+      route = find_route
 
-        response
+      if route
+        response.write instance_eval(&route[:block])
+      else
+        halt 404
       end
     end
 
