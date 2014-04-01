@@ -47,13 +47,12 @@ module Hobbit
     attr_reader :env, :request, :response
 
     def call(env)
-      dup._call(env)
+      dup._call env
     end
 
     def _call(env)
-      env['PATH_INFO'] = '/' if env['PATH_INFO'].empty?
       @env = env
-      @request = Rack::Request.new(@env)
+      @request = Hobbit::Request.new @env
       @response = Hobbit::Response.new
       catch(:halt) { route_eval }
       @response.finish

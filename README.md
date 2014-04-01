@@ -115,7 +115,7 @@ end
 When a route gets called you have this methods available:
 
 * `env`: The Rack environment.
-* `request`: a `Rack::Request` instance.
+* `request`: a `Hobbit::Request` instance.
 * `response`: a `Hobbit::Response` instance.
 
 And any other method defined in your application.

@@ -1,6 +1,8 @@
 # 0.5.1 (Unreleased)
 
 * A class is an object too, so allow to `run` classes.
+* Add `Hobbit::Request`, which sets the path info to `/` if its empty (instead
+of doing that on the call method).
 
 # 0.5.0
 
