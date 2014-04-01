@@ -63,7 +63,7 @@ Create a `config.ru` file:
 ```ruby
 require './app'
 
-run App.new
+run App.new # or just `run App`
 ```
 
 Run it with `rackup`:

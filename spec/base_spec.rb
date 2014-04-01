@@ -59,6 +59,20 @@ EOS
     end
   end
 
+  describe '::call' do
+    it 'must create a new instance and send the call message' do
+      a = Class.new(Hobbit::Base) do
+        get '/' do
+          'hello world'
+        end
+      end
+
+      env = { 'PATH_INFO' => '/', 'REQUEST_METHOD' => 'GET' }
+      status, headers, body = a.call env
+      body.must_equal ['hello world']
+    end
+  end
+
   describe '::routes' do
     it 'must return a Hash' do
       app.to_app.class.routes.must_be_kind_of Hash

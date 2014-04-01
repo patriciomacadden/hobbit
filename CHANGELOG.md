@@ -1,3 +1,7 @@
+# 0.5.1 (Unreleased)
+
+* A class is an object too, so allow to `run` classes.
+
 # 0.5.0
 
 * Refactor `Hobbit::Base#halt`. It now sets the status, merges the headers and

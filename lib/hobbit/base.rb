@@ -17,6 +17,10 @@ module Hobbit
         stack
       end
 
+      def call(env)
+        new.call env
+      end
+
       def routes
         @routes ||= Hash.new { |hash, key| hash[key] = [] }
       end
