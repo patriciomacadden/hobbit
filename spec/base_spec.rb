@@ -54,7 +54,7 @@ EOS
   end
 
   describe '::new' do
-    it 'should return an instance of Rack::Builder' do
+    it 'must return an instance of Rack::Builder' do
       app.must_be_kind_of Rack::Builder
     end
   end
