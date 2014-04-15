@@ -2,8 +2,11 @@ require 'minitest_helper'
 
 describe Hobbit::Response do
   describe '#initialize' do
+    let :default_headers do
+      { 'Content-Type' => 'text/html; charset=utf-8' }
+    end
+
     it 'must set the body, status and headers with no arguments given' do
-      default_headers = { 'Content-Type' => 'text/html; charset=utf-8' }
       response = Hobbit::Response.new
       response.status.must_equal 200
       response.headers.must_equal default_headers
@@ -16,6 +19,13 @@ describe Hobbit::Response do
       response.status.must_equal status
       response.headers.must_equal headers
       response.body.must_equal body
+    end
+
+    it 'must set the body if the body is a string' do
+      response = Hobbit::Response.new 'hello world'
+      response.status.must_equal 200
+      response.headers.must_equal default_headers
+      response.body.must_equal ['hello world']
     end
 
     it 'must raise a TypeError if body does not respond to :to_str or :each' do
