@@ -1,10 +1,10 @@
+require 'codeclimate-test-reporter'
+CodeClimate::TestReporter.start
+
 ENV['RACK_ENV'] ||= 'test'
 
 require 'bundler'
 Bundler.require :default, ENV['RACK_ENV'].to_sym
-
-require 'coveralls'
-Coveralls.wear!
 
 require 'minitest/autorun'
 require 'rack'
