@@ -13,20 +13,17 @@ scope Hobbit::Base do
   end
 
   %w(DELETE GET HEAD OPTIONS PATCH POST PUT).each do |verb|
-    str = <<EOS
-  scope "::#{verb.downcase}" do
-    test 'adds a route to @routes' do
-      route = app.to_app.class.routes['#{verb}'].first
-      assert route[:path] == '/'
-    end
+    scope "::#{verb.downcase}" do
+      test 'adds a route to @routes' do
+        route = app.to_app.class.routes[verb].first
+        assert route[:path] == '/'
+      end
 
-    test 'extracts the extra_params' do
-      route = app.to_app.class.routes['#{verb}'].last
-      assert route[:extra_params] == [:name]
+      test 'extracts the extra_params' do
+        route = app.to_app.class.routes[verb].last
+        assert route[:extra_params] == [:name]
+      end
     end
-  end
-EOS
-    instance_eval str
   end
 
   scope '::map' do
@@ -165,52 +162,49 @@ EOS
 
   scope '#call' do
     %w(DELETE GET HEAD OPTIONS PATCH POST PUT).each do |verb|
-      str = <<EOS
-    scope 'when the request matches a route' do
-      test 'matches #{verb} ""' do
-        #{verb.downcase} ''
-        assert last_response.ok?
-        assert last_response.body == '#{verb}'
+      scope 'when the request matches a route' do
+        test "matches #{verb} ''" do
+          send verb.downcase, ''
+          assert last_response.ok?
+          assert last_response.body == verb
+        end
+
+        test 'matches #{verb} /' do
+          send verb.downcase, '/'
+          assert last_response.ok?
+          assert last_response.body == verb
+        end
+
+        test 'matches #{verb} /route.json' do
+          send verb.downcase, '/route.json'
+          assert last_response.ok?
+          assert last_response.body == "#{verb} /route.json"
+        end
+
+        test 'matches #{verb} /route/:id.json' do
+          send verb.downcase, '/route/1.json'
+          assert last_response.ok?
+          assert last_response.body == '1'
+        end
+
+        test 'matches #{verb} /:name' do
+          send verb.downcase, '/hobbit'
+          assert last_response.ok?
+          assert last_response.body == 'hobbit'
+
+          send verb.downcase, '/hello-hobbit'
+          assert last_response.ok?
+          assert last_response.body == 'hello-hobbit'
+        end
       end
 
-      test 'matches #{verb} /' do
-        #{verb.downcase} '/'
-        assert last_response.ok?
-        assert last_response.body == '#{verb}'
+      scope 'when the request not matches a route' do
+        test 'responds with 404 status code' do
+          send verb.downcase, '/not/found'
+          assert last_response.not_found?
+          assert last_response.body == ''
+        end
       end
-
-      test 'matches #{verb} /route.json' do
-        #{verb.downcase} '/route.json'
-        assert last_response.ok?
-        assert last_response.body == '#{verb} /route.json'
-      end
-
-      test 'matches #{verb} /route/:id.json' do
-        #{verb.downcase} '/route/1.json'
-        assert last_response.ok?
-        assert last_response.body == '1'
-      end
-
-      test 'matches #{verb} /:name' do
-        #{verb.downcase} '/hobbit'
-        assert last_response.ok?
-        assert last_response.body == 'hobbit'
-
-        #{verb.downcase} '/hello-hobbit'
-        assert last_response.ok?
-        assert last_response.body == 'hello-hobbit'
-      end
-    end
-
-    scope 'when the request not matches a route' do
-      test 'responds with 404 status code' do
-        #{verb.downcase} '/not/found'
-        assert last_response.not_found?
-        assert last_response.body == ''
-      end
-    end
-EOS
-      instance_eval str
     end
   end
 
