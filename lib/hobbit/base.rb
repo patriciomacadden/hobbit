@@ -55,14 +55,9 @@ module Hobbit
       @request = Hobbit::Request.new @env
       @response = Hobbit::Response.new
       catch(:halt) { route_eval }
-      @response.finish
     end
 
-    def halt(*res)
-      response.status = res.detect { |s| s.is_a? Fixnum } || 200
-      response.headers.merge! res.detect { |h| h.is_a? Hash } || {}
-      response.write res.detect { |b| b.is_a? String } || ''
-
+    def halt(response)
       throw :halt, response
     end
 
@@ -74,8 +69,10 @@ module Hobbit
       if route
         response.write instance_eval(&route[:block])
       else
-        halt 404
+        response.status = 404
       end
+
+      response.finish
     end
 
     def find_route

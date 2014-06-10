@@ -211,50 +211,24 @@ scope Hobbit::Base do
   scope '#halt' do
     setup do
       mock_app do
-        get '/halt_fixnum' do
-          halt 501
-          response.write 'Hello world'
+        get '/halt' do
+          response.status = 501
+          halt response.finish
         end
 
-        get '/halt_string' do
-          halt 'Halt!'
-        end
-
-        get '/halt_hash' do
-          halt(header: 'OK')
-        end
-
-        get '/halt_combined' do
-          halt 404, 'Not Found'
+        get '/halt_finished' do
+          halt [404, {}, ['Not found']]
         end
       end
     end
 
-    test 'returns the response given to halt function' do
-      get '/halt_fixnum'
-      assert last_response.body == ''
-      assert last_response.headers == { 'Content-Type' => 'text/html; charset=utf-8', 'Content-Length' => '0' }
+    test 'halts the execution with a response' do
+      get '/halt'
       assert last_response.status == 501
     end
 
-    test 'accepts body' do
-      get '/halt_string'
-      assert last_response.body == 'Halt!'
-      assert last_response.headers == { 'Content-Type' => 'text/html; charset=utf-8', 'Content-Length' => '5' }
-      assert last_response.status == 200
-    end
-
-    test 'accepts headers' do
-      get '/halt_hash'
-      assert last_response.body == ''
-      assert last_response.headers == { 'Content-Type' => 'text/html; charset=utf-8', 'Content-Length' => '0', header: 'OK' }
-      assert last_response.status == 200
-    end
-
-    test 'accepts combinations' do
-      get '/halt_combined'
-      assert last_response.body == 'Not Found'
-      assert last_response.headers == { 'Content-Type' => 'text/html; charset=utf-8', 'Content-Length' => '9' }
+    test 'halts the execution with a finished response' do
+      get '/halt_finished'
       assert last_response.status == 404
     end
   end
