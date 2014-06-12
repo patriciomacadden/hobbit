@@ -4,6 +4,7 @@ require 'codeclimate-test-reporter'
 CodeClimate::TestReporter.start
 
 require 'oktobertest'
+require 'oktobertest/contrib'
 require 'rack'
 require 'rack/test'
 

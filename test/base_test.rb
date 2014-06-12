@@ -16,12 +16,12 @@ scope Hobbit::Base do
     scope "::#{verb.downcase}" do
       test 'adds a route to @routes' do
         route = app.to_app.class.routes[verb].first
-        assert route[:path] == '/'
+        assert_equal '/', route[:path]
       end
 
       test 'extracts the extra_params' do
         route = app.to_app.class.routes[verb].last
-        assert route[:extra_params] == [:name]
+        assert_equal [:name], route[:extra_params]
       end
     end
   end
@@ -39,13 +39,13 @@ scope Hobbit::Base do
 
     test 'mounts an application to the rack stack' do
       get '/map'
-      assert last_response.body == 'from map'
+      assert_equal 'from map', last_response.body
     end
   end
 
   scope '::new' do
     test 'returns an instance of Rack::Builder' do
-      assert app.kind_of? Rack::Builder
+      assert_kind_of Rack::Builder, app
     end
   end
 
@@ -59,19 +59,19 @@ scope Hobbit::Base do
 
       env = { 'PATH_INFO' => '/', 'REQUEST_METHOD' => 'GET' }
       status, headers, body = a.call env
-      assert body == ['hello world']
+      assert_equal ['hello world'], body
     end
   end
 
   scope '::routes' do
     test 'returns a Hash' do
-      assert app.to_app.class.routes.kind_of? Hash
+      assert_kind_of Hash, app.to_app.class.routes
     end
   end
 
   scope '::stack' do
     test 'returns an instance of Rack::Builder' do
-      assert app.to_app.class.stack.kind_of? Rack::Builder
+      assert_kind_of Rack::Builder, app.to_app.class.stack
     end
   end
 
@@ -98,7 +98,7 @@ scope Hobbit::Base do
 
     test 'adds a middleware to the rack stack' do
       get '/use'
-      assert last_response.body == 'from use'
+      assert_equal 'from use', last_response.body
     end
   end
 
@@ -110,53 +110,53 @@ scope Hobbit::Base do
     test 'compiles /' do
       path = '/'
       route = Hobbit::Base.send :compile_route, path, &block
-      assert route[:block].call({}) == block.call({})
-      assert route[:compiled_path].to_s == /^\/$/.to_s
-      assert route[:extra_params] == []
-      assert route[:path] == path
+      assert_equal block.call({}), route[:block].call({})
+      assert_equal /^\/$/.to_s, route[:compiled_path].to_s
+      assert_equal [], route[:extra_params]
+      assert_equal path, route[:path]
     end
 
     test 'compiles with .' do
       path = '/route.json'
       route = Hobbit::Base.send :compile_route, path, &block
-      assert route[:block].call({}) == block.call({})
-      assert route[:compiled_path].to_s == /^\/route.json$/.to_s
-      assert route[:extra_params] == []
-      assert route[:path] == path
+      assert_equal block.call({}), route[:block].call({})
+      assert_equal /^\/route.json$/.to_s, route[:compiled_path].to_s
+      assert_equal [], route[:extra_params]
+      assert_equal path, route[:path]
     end
 
     test 'compiles with -' do
       path = '/hello-world'
       route = Hobbit::Base.send :compile_route, path, &block
-      assert route[:block].call({}) == block.call({})
-      assert route[:compiled_path].to_s == /^\/hello-world$/.to_s
-      assert route[:extra_params] == []
-      assert route[:path] == path
+      assert_equal block.call({}), route[:block].call({})
+      assert_equal /^\/hello-world$/.to_s, route[:compiled_path].to_s
+      assert_equal [], route[:extra_params]
+      assert_equal path, route[:path]
     end
 
     test 'compiles with params' do
       path = '/hello/:name'
       route = Hobbit::Base.send :compile_route, path, &block
-      assert route[:block].call({}) == block.call({})
-      assert route[:compiled_path].to_s == /^\/hello\/([^\/?#]+)$/.to_s
-      assert route[:extra_params] == [:name]
-      assert route[:path] == path
+      assert_equal block.call({}), route[:block].call({})
+      assert_equal /^\/hello\/([^\/?#]+)$/.to_s, route[:compiled_path].to_s
+      assert_equal [:name], route[:extra_params]
+      assert_equal path, route[:path]
 
       path = '/say/:something/to/:someone'
       route = Hobbit::Base.send :compile_route, path, &block
-      assert route[:block].call({}) == block.call({})
-      assert route[:compiled_path].to_s == /^\/say\/([^\/?#]+)\/to\/([^\/?#]+)$/.to_s
-      assert route[:extra_params] == [:something, :someone]
-      assert route[:path] == path
+      assert_equal block.call({}), route[:block].call({})
+      assert_equal /^\/say\/([^\/?#]+)\/to\/([^\/?#]+)$/.to_s, route[:compiled_path].to_s
+      assert_equal [:something, :someone], route[:extra_params]
+      assert_equal path, route[:path]
     end
 
     test 'compiles with . and params' do
       path = '/route/:id.json'
       route = Hobbit::Base.send :compile_route, path, &block
-      assert route[:block].call({}) == block.call({})
-      assert route[:compiled_path].to_s == /^\/route\/([^\/?#]+).json$/.to_s
-      assert route[:extra_params] == [:id]
-      assert route[:path] == path
+      assert_equal block.call({}), route[:block].call({})
+      assert_equal /^\/route\/([^\/?#]+).json$/.to_s, route[:compiled_path].to_s
+      assert_equal [:id], route[:extra_params]
+      assert_equal path, route[:path]
     end
   end
 
@@ -166,35 +166,35 @@ scope Hobbit::Base do
         test "matches #{verb} ''" do
           send verb.downcase, ''
           assert last_response.ok?
-          assert last_response.body == verb
+          assert_equal verb, last_response.body
         end
 
         test 'matches #{verb} /' do
           send verb.downcase, '/'
           assert last_response.ok?
-          assert last_response.body == verb
+          assert_equal verb, last_response.body
         end
 
         test 'matches #{verb} /route.json' do
           send verb.downcase, '/route.json'
           assert last_response.ok?
-          assert last_response.body == "#{verb} /route.json"
+          assert_equal "#{verb} /route.json", last_response.body
         end
 
         test 'matches #{verb} /route/:id.json' do
           send verb.downcase, '/route/1.json'
           assert last_response.ok?
-          assert last_response.body == '1'
+          assert_equal '1', last_response.body
         end
 
         test 'matches #{verb} /:name' do
           send verb.downcase, '/hobbit'
           assert last_response.ok?
-          assert last_response.body == 'hobbit'
+          assert_equal 'hobbit', last_response.body
 
           send verb.downcase, '/hello-hobbit'
           assert last_response.ok?
-          assert last_response.body == 'hello-hobbit'
+          assert_equal 'hello-hobbit', last_response.body
         end
       end
 
@@ -202,7 +202,7 @@ scope Hobbit::Base do
         test 'responds with 404 status code' do
           send verb.downcase, '/not/found'
           assert last_response.not_found?
-          assert last_response.body == ''
+          assert_equal '', last_response.body
         end
       end
     end
@@ -224,12 +224,12 @@ scope Hobbit::Base do
 
     test 'halts the execution with a response' do
       get '/halt'
-      assert last_response.status == 501
+      assert_status 501
     end
 
     test 'halts the execution with a finished response' do
       get '/halt_finished'
-      assert last_response.status == 404
+      assert_status 404
     end
   end
 
