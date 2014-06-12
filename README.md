@@ -176,8 +176,7 @@ end
 
 #### Halting
 
-To immediately stop a request within route you can use `halt`. You can also
-specify a status:
+To immediately stop a request within route you can use `halt`. 
 
 ```ruby
 require 'hobbit'
@@ -190,61 +189,8 @@ class App < Hobbit::Base
   end
 
   get '/' do
-    halt 401 unless session['user_id']
-  end
-end
-```
-
-Or body:
-
-```ruby
-require 'hobbit'
-
-class App < Hobbit::Base
-  use Rack::Session::Cookie, secret: SecureRandom.hex(64)
-
-  def session
-    env['rack.session']
-  end
-
-  get '/' do
-    halt 401, 'This will be the body' unless session['user_id']
-  end
-end
-```
-
-Or headers:
-
-```ruby
-require 'hobbit'
-
-class App < Hobbit::Base
-  use Rack::Session::Cookie, secret: SecureRandom.hex(64)
-
-  def session
-    env['rack.session']
-  end
-
-  get '/' do
-    halt 401, { 'Content-Type' => 'text/html; charset=utf-8' }
-  end
-end
-```
-
-Or both:
-
-``` ruby
-require 'hobbit'
-
-class App < Hobbit::Base
-  use Rack::Session::Cookie, secret: SecureRandom.hex(64)
-
-  def session
-    env['rack.session']
-  end
-
-  get '/' do
-    halt 401, { 'Content-Type' => 'text/html; charset=utf-8' }, 'Woops'
+    response.status = 401
+    halt response.finish
   end
 end
 ```
