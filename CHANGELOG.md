@@ -1,3 +1,10 @@
+# 0.6.0
+
+* Change the implementation of `Hobbit::Base#halt`. This new implementation is
+more rack compliant.
+* Test hobbit with [oktobertest](https://github.com/patriciomacadden/oktobertest)
+instead of minitest (Because reasons!).
+
 # 0.5.1 (Unreleased)
 
 * A class is an object too, so allow to `run` classes.
