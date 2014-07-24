@@ -360,6 +360,11 @@ Sinatra-like error handling.
 * [Wiki](https://github.com/patriciomacadden/hobbit/wiki): Guides, how-tos and recipes
 * IRC: [#hobbitrb](irc://chat.freenode.net/#hobbitrb) on [http://freenode.net](http://freenode.net)
 
+## Presentations
+
+* Building web applications in Ruby, by [Krzysztof Wawer](https://github.com/wafcio)
+([english](https://speakerdeck.com/wafcio/hobbit-english), [polish](https://speakerdeck.com/wafcio/hobbit))
+
 ## Contributing
 
 1. Fork it
