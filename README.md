@@ -42,7 +42,7 @@ its extensions instead of providing such functionality.
 
 Hobbit applications are just instances of classes that inherits from
 `Hobbit::Base`, which complies the
-[Rack SPEC](http://rack.rubyforge.org/doc/SPEC.html).
+[Rack SPEC](http://rubydoc.info/github/rack/rack/master/file/SPEC).
 
 ### Hello World example
 
