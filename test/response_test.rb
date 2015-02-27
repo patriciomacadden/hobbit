@@ -96,6 +96,12 @@ scope Hobbit::Response do
       assert_includes h, 'Content-Length'
       assert_equal '0', h['Content-Length']
     end
+
+    test 'does not calculate the Content-Length of the body for statuses that do not allow Content-Length headers' do
+      response = Hobbit::Response.new '', 204, {}
+      s, h, b = response.finish
+      assert !h.key?('Content-Length')
+    end
   end
 
   scope '#redirect' do
