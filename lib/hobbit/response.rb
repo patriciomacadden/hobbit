@@ -21,7 +21,9 @@ module Hobbit
     end
 
     def finish
-      headers['Content-Length'] = @length.to_s
+      unless (100..199).include?(status) || status == 204
+        headers['Content-Length'] = @length.to_s
+      end
       [status, headers, body]
     end
 
